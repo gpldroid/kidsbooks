@@ -65,6 +65,7 @@ const detailUrl = `${base}libros/${book.data.slug}/`;
   .book-open-icon { display:grid; width:1.85rem; height:1.85rem; place-items:center; margin-left:auto; border:1px solid #e7dff0; border-radius:.7rem; background:#f5f0fa; color:#8068ad; box-shadow:0 3px 0 #e7dff0; transition:transform .2s,box-shadow .2s,background .2s; }
   .book-open-icon svg { width:1rem; height:1rem; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
   .book-card:hover .book-open-icon { transform:translateY(2px); box-shadow:0 1px 0 #e7dff0; background:#eee7fa; }
+  @media(hover:none) { .book-card:hover { transform:none; }.book-card:hover .book-cover { transform:perspective(650px) rotateY(-4deg); } }
   @media(max-width:560px) { .book-card-stage { min-height:175px; padding:.8rem .7rem .5rem; }.book-card-media { width:min(100%,160px); }.book-card-content { padding:.85rem .8rem .9rem; }.book-card-footer { gap:.35rem; }.book-meta { font-size:.62rem; } }
   @media(prefers-reduced-motion:reduce) { .book-card,.book-cover,.book-open-icon { transition:none; } }
 </style>
