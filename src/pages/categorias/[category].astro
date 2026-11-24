@@ -4,8 +4,8 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import Header from "@components/Header.astro";
 import SiteFooter from "@components/SiteFooter.astro";
 import BookCard from "@components/BookCard.astro";
-const slugify = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 export async function getStaticPaths() {
+  const slugify = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const books = await getCollection("books", ({ data }) => !data.draft);
   const categories = [...new Set(books.map((book) => book.data.category))];
   return categories.map((category) => ({ params: { category: slugify(category) }, props: { category, books: books.filter((book) => book.data.category === category) } }));
