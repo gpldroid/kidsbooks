@@ -8,7 +8,7 @@ import BookCard from "@components/BookCard.astro";
 const books = (await getCollection("books", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 ---
-<BaseLayout title="Libros para colorear" description="Explora, busca y ordena nuestra colección de libros infantiles gratuitos para colorear e imprimir.">
+<BaseLayout title="Libros para colorear" description="Explora, busca y ordena nuestra colección de libros infantiles gratuitos para colorear e imprimir." keywords={["libros para colorear gratis", "libros infantiles PDF", "dibujos para colorear e imprimir", "libros para niños"]}>
   <Header />
   <main class="container-page min-h-[65vh] py-14">
     <header class="catalogue-intro">
@@ -36,7 +36,7 @@ const books = (await getCollection("books", ({ data }) => !data.draft))
         <p class="catalogue-count" id="catalogue-count" aria-live="polite">{books.length} {books.length === 1 ? "libro disponible" : "libros disponibles"}</p>
         <div class="catalogue-grid" id="catalogue-grid">
           {books.map((book) => (
-            <div class="catalogue-item" data-book-item data-title={book.data.title.toLocaleLowerCase("es")} data-category={book.data.category.toLocaleLowerCase("es")} data-description={book.data.description.toLocaleLowerCase("es")} data-date={book.data.publishedAt.toISOString()} data-pages={book.data.pages}>
+            <div class="catalogue-item" data-book-item data-title={book.data.title.toLocaleLowerCase("es")} data-category={book.data.category.toLocaleLowerCase("es")} data-description={book.data.description.toLocaleLowerCase("es")} data-keywords={book.data.keywords.join(" ").toLocaleLowerCase("es")} data-date={book.data.publishedAt.toISOString()} data-pages={book.data.pages}>
               <BookCard book={book} />
             </div>
           ))}
@@ -66,7 +66,7 @@ const books = (await getCollection("books", ({ data }) => !data.draft))
     if (!searchInput || !sortSelect || !grid || !count || !empty) return;
     const query = searchInput.value.trim().toLocaleLowerCase("es");
     const visible = items.filter((item) => {
-      const haystack = [item.dataset.title, item.dataset.category, item.dataset.description].join(" ");
+      const haystack = [item.dataset.title, item.dataset.category, item.dataset.description, item.dataset.keywords].join(" ");
       const matches = haystack.includes(query);
       item.hidden = !matches;
       return matches;
