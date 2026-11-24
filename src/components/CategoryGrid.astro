@@ -46,9 +46,9 @@ const categories = [
     <p class="results-status" data-results-status aria-live="polite">{books.length} libros disponibles</p>
     <div class="books-grid" data-book-results>
       {books.map((book) => (
-        <article class="book-result" data-book-card data-book-characters={(book.data.characters ?? []).join(" ")} data-book-age={book.data.age}>
+        <div class="book-result" data-book-card data-book-characters={(book.data.characters ?? []).join(" ")} data-book-age={book.data.age}>
           <BookCard book={book} />
-        </article>
+        </div>
       ))}
     </div>
     <div class="empty-results" data-empty-state hidden>
