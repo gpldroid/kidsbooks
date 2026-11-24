@@ -119,7 +119,7 @@ Se ha producido una primera edición de **53 páginas A4 verticales**:
 - Portada a color, página de bienvenida en español, 25 ilustraciones de frutas en blanco y negro, 25 páginas completamente blancas alternadas después de cada ilustración y contraportada.
 - PDF exportado y revisado: 53 páginas; las páginas 4, 6, 8, ..., 52 son páginas blancas; todas las páginas tienen proporción A4 vertical.
 - Diseño importado en Canva: [Abrir Frutas Divertidas y Felices](https://www.canva.com/d/wHkroUzXgGc6CTJ).
-- La copia PDF de trabajo se conserva fuera del repositorio durante esta fase. **No está todavía publicada en `public/books/` ni registrada como libro público en Content Collections.** Sigue `docs/LIBRO-FRUTAS-DIVERTIDAS.md` para completar esa integración sin dar por publicado un archivo que aún no está en el repositorio.
+- La ficha Markdown y una portada SVG ya están integradas en Content Collections y `public/images/covers/`, pero el libro permanece en `draft: true`. El PDF maestro verificado (53 páginas) aún se conserva fuera del repositorio y no está en `public/books/`; por eso el título no aparece en el catálogo ni se ofrece una descarga falsa. El validador ahora compara la cantidad de páginas declarada con la cantidad real del PDF usando `pdf-lib`. Sigue `docs/LIBRO-FRUTAS-DIVERTIDAS.md` para completar la publicación cuando el PDF se incorpore al repositorio.
 
 ## Publicación en GitHub Pages
 
