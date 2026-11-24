@@ -5,6 +5,12 @@ description: "Libro infantil para colorear con 25 dibujos sencillos de frutas y 
 age: "3-6"
 pages: 53
 category: "Frutas"
+keywords:
+  - "libro de frutas para colorear"
+  - "dibujos de frutas para niños"
+  - "frutas kawaii"
+  - "actividades infantiles imprimibles"
+  - "PDF para colorear gratis"
 characters:
   - "fruits"
 cover: "/images/covers/frutas-divertidas-y-felices.svg"
