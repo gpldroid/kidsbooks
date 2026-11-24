@@ -8,25 +8,119 @@ import BookCard from "@components/BookCard.astro";
 const books = (await getCollection("books", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 ---
-<BaseLayout title="Libros para colorear" description="Explora nuestra colección de libros infantiles gratuitos para colorear e imprimir.">
+<BaseLayout title="Libros para colorear" description="Explora, busca y ordena nuestra colección de libros infantiles gratuitos para colorear e imprimir.">
   <Header />
   <main class="container-page min-h-[65vh] py-14">
-    <div class="max-w-2xl">
-      <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">Para pequeños artistas</p>
-      <h1 class="mt-2 text-4xl font-black tracking-tight text-ink">Libros para colorear</h1>
-      <p class="mt-4 leading-7 text-[#777184]">Descubre libros infantiles gratuitos. Elige tu favorito, descarga el PDF disponible y disfruta coloreando.</p>
-    </div>
+    <header class="catalogue-intro">
+      <p class="catalogue-kicker">Para pequeños artistas</p>
+      <h1>Libros para colorear</h1>
+      <p>Descubre libros infantiles gratuitos. Busca por título o tema, encuentra tu favorito y disfruta coloreando.</p>
+    </header>
     {books.length > 0 ? (
-      <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {books.map((book) => <BookCard book={book} />)}
-      </div>
+      <>
+        <section class="catalogue-tools" aria-label="Buscar y ordenar libros">
+          <label class="catalogue-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg>
+            <span class="sr-only">Buscar libros</span>
+            <input type="search" id="book-search" placeholder="Buscar por título, descripción o categoría..." autocomplete="off" />
+            <kbd aria-hidden="true">/</kbd>
+          </label>
+          <label class="catalogue-sort"><span>Ordenar por</span>
+            <select id="book-sort">
+              <option value="newest">Más recientes</option>
+              <option value="title">Nombre (A–Z)</option>
+              <option value="pages">Número de páginas</option>
+            </select>
+          </label>
+        </section>
+        <p class="catalogue-count" id="catalogue-count" aria-live="polite">{books.length} {books.length === 1 ? "libro disponible" : "libros disponibles"}</p>
+        <div class="catalogue-grid" id="catalogue-grid">
+          {books.map((book) => (
+            <div class="catalogue-item" data-book-item data-title={book.data.title.toLocaleLowerCase("es")} data-category={book.data.category.toLocaleLowerCase("es")} data-description={book.data.description.toLocaleLowerCase("es")} data-date={book.data.publishedAt.toISOString()} data-pages={book.data.pages}>
+              <BookCard book={book} />
+            </div>
+          ))}
+        </div>
+        <section class="catalogue-empty" id="catalogue-empty" hidden aria-live="polite">
+          <span aria-hidden="true">🔎</span><h2>No encontramos libros</h2>
+          <p>Prueba con otro título o categoría.</p>
+          <button type="button" id="clear-book-search">Borrar búsqueda</button>
+        </section>
+      </>
     ) : (
-      <div class="mt-10 rounded-[2rem] border border-[#eee7df] bg-white px-6 py-14 text-center soft-shadow">
-        <span class="text-4xl" aria-hidden="true">🌈</span>
-        <h2 class="mt-4 text-xl font-black text-ink">No hay títulos disponibles en este momento</h2>
-        <p class="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#777184]">Vuelve a visitarnos para descubrir nuevas propuestas creativas.</p>
-      </div>
+      <div class="catalogue-empty catalogue-empty-static"><span aria-hidden="true">🌈</span><h2>No hay títulos disponibles en este momento</h2><p>Vuelve a visitarnos para descubrir nuevas propuestas creativas.</p></div>
     )}
   </main>
   <SiteFooter />
 </BaseLayout>
+<script>
+  const searchInput = document.querySelector<HTMLInputElement>("#book-search");
+  const sortSelect = document.querySelector<HTMLSelectElement>("#book-sort");
+  const grid = document.querySelector<HTMLElement>("#catalogue-grid");
+  const count = document.querySelector<HTMLElement>("#catalogue-count");
+  const empty = document.querySelector<HTMLElement>("#catalogue-empty");
+  const clearButton = document.querySelector<HTMLButtonElement>("#clear-book-search");
+  const items = Array.from(document.querySelectorAll<HTMLElement>("[data-book-item]"));
+
+  function renderCatalogue() {
+    if (!searchInput || !sortSelect || !grid || !count || !empty) return;
+    const query = searchInput.value.trim().toLocaleLowerCase("es");
+    const visible = items.filter((item) => {
+      const haystack = [item.dataset.title, item.dataset.category, item.dataset.description].join(" ");
+      const matches = haystack.includes(query);
+      item.hidden = !matches;
+      return matches;
+    });
+    visible.sort((a, b) => {
+      if (sortSelect.value === "title") return (a.dataset.title ?? "").localeCompare(b.dataset.title ?? "", "es");
+      if (sortSelect.value === "pages") return Number(b.dataset.pages) - Number(a.dataset.pages);
+      return (b.dataset.date ?? "").localeCompare(a.dataset.date ?? "");
+    });
+    visible.forEach((item) => grid.append(item));
+    count.textContent = `${visible.length} ${visible.length === 1 ? "libro disponible" : "libros disponibles"}`;
+    empty.hidden = visible.length > 0;
+    grid.hidden = visible.length === 0;
+  }
+
+  searchInput?.addEventListener("input", renderCatalogue);
+  sortSelect?.addEventListener("change", renderCatalogue);
+  clearButton?.addEventListener("click", () => {
+    if (!searchInput) return;
+    searchInput.value = "";
+    renderCatalogue();
+    searchInput.focus();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "/" || event.ctrlKey || event.metaKey || event.altKey) return;
+    const target = event.target;
+    if (target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))) return;
+    event.preventDefault();
+    searchInput?.focus();
+  });
+  renderCatalogue();
+</script>
+<style>
+  .catalogue-intro { max-width:44rem; }
+  .catalogue-kicker { color:#927db5; font-size:.7rem; font-weight:950; letter-spacing:.18em; text-transform:uppercase; }
+  .catalogue-intro h1 { margin:.45rem 0 0; color:#343247; font-size:clamp(2.25rem,5vw,3.4rem); font-weight:1000; letter-spacing:-.055em; line-height:1.1; }
+  .catalogue-intro>p:last-child { max-width:40rem; margin:.9rem 0 0; color:#777184; font-size:1rem; line-height:1.8; }
+  .catalogue-tools { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:2.2rem; padding:1rem; border:1px solid #ece6ef; border-radius:1.4rem; background:#fff; box-shadow:0 5px 18px rgb(68 54 89 / 5%); }
+  .catalogue-search { display:flex; min-width:0; flex:1; align-items:center; gap:.7rem; }
+  .catalogue-search svg { width:1.2rem; height:1.2rem; flex:none; fill:none; stroke:#8c7ba6; stroke-width:1.8; stroke-linecap:round; }
+  .catalogue-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#343247; font-size:.9rem; }
+  .catalogue-search input::placeholder { color:#a39ca9; }
+  .catalogue-search kbd { border:1px solid #e8e2ec; border-radius:.4rem; padding:.12rem .4rem; color:#8c8494; font-size:.72rem; }
+  .catalogue-sort { display:flex; align-items:center; gap:.6rem; color:#8b8491; font-size:.75rem; font-weight:800; white-space:nowrap; }
+  .catalogue-sort select { max-width:12rem; border:1px solid #e8e2ec; border-radius:.7rem; padding:.6rem .75rem; background:#faf8fc; color:#554c64; font:inherit; font-weight:900; }
+  .catalogue-count { margin:1rem 0 .7rem; color:#99939a; font-size:.78rem; }
+  .catalogue-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.3rem; }
+  .catalogue-item[hidden],.catalogue-grid[hidden] { display:none; }
+  .catalogue-empty { margin-top:1rem; padding:3.5rem 1rem; border:1px dashed #ddd4e6; border-radius:1.5rem; background:#fff; text-align:center; }
+  .catalogue-empty[hidden] { display:none; }.catalogue-empty>span { font-size:2.3rem; }
+  .catalogue-empty h2 { margin:.65rem 0 .3rem; color:#343247; font-size:1.25rem; font-weight:950; }.catalogue-empty p { color:#89828f; font-size:.9rem; }
+  .catalogue-empty button { margin-top:1rem; border:0; border-radius:999px; padding:.7rem 1.1rem; background:#eee7fa; color:#70599c; font-weight:900; cursor:pointer; box-shadow:0 3px 0 #ded3ed; }
+  .catalogue-search:focus-within { outline:3px solid #eee7fa; outline-offset:5px; border-radius:.3rem; }
+  .catalogue-sort select:focus-visible,.catalogue-empty button:focus-visible { outline:3px solid #9b85c8; outline-offset:3px; }
+  @media(max-width:850px) { .catalogue-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media(max-width:560px) { .catalogue-tools { align-items:stretch; flex-direction:column; gap:.9rem; padding:.85rem; }.catalogue-search { min-height:2.4rem; }.catalogue-sort { justify-content:space-between; }.catalogue-sort select { flex:1; max-width:none; }.catalogue-grid { gap:.75rem; } }
+</style>
