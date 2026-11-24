@@ -1,0 +1,17 @@
+<div class="scroll-controls" aria-label="Controles de desplazamiento">
+  <button class="scroll-control" type="button" data-scroll="top" aria-label="Ir al inicio" title="Ir al inicio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg>
+  </button>
+  <button class="scroll-control" type="button" data-scroll="bottom" aria-label="Ir al final" title="Ir al final">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6 6 6-6"/></svg>
+  </button>
+</div>
+<script>
+  const controls = document.querySelectorAll<HTMLButtonElement>("[data-scroll]");
+  for (const control of controls) {
+    control.addEventListener("click", () => {
+      const target = control.dataset.scroll === "top" ? 0 : document.documentElement.scrollHeight;
+      window.scrollTo({ top: target, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
+  }
+</script>
