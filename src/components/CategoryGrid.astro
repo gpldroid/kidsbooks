@@ -1,52 +1,57 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import BookCard from "@components/BookCard.astro";
+import { categoryHref } from "@utils/taxonomy";
 
 interface Props { books: CollectionEntry<"books">[]; }
 const { books } = Astro.props;
-const categories = [
-  { id: "fruits", title: "Frutas", description: "Colores dulces y sonrisas", icon: "🍓", tone: "mint" },
-  { id: "animals", title: "Animales", description: "Amigos del mundo animal", icon: "🦊", tone: "peach" },
-  { id: "princesses", title: "Fantasía", description: "Un toque de magia", icon: "🧚", tone: "lilac" },
-  { id: "heroes", title: "Aventuras", description: "Héroes e imaginación", icon: "🚀", tone: "blue" }
-];
+const categoryVisuals: Record<string, { icon: string; tone: string; description: string }> = {
+  frutas: { icon: "🍓", tone: "mint", description: "Colores dulces y sonrisas" },
+  animales: { icon: "🦊", tone: "peach", description: "Amigos del mundo animal" },
+  fantasia: { icon: "🧚", tone: "lilac", description: "Un toque de magia" },
+  naturaleza: { icon: "🌿", tone: "mint", description: "Bosques, plantas y animales" },
+  aventuras: { icon: "🚀", tone: "blue", description: "Héroes e imaginación" }
+};
+const categories = [...new Set(books.map((book) => book.data.category))]
+  .sort((a, b) => a.localeCompare(b, "es"))
+  .map((title) => ({ title, ...categoryVisuals[title.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase()] ?? { icon: "📚", tone: "blue", description: "Descubre esta colección" } }));
 ---
 <section id="categorias" class="category-section" aria-labelledby="categories-title">
   <div class="category-container">
     <header class="section-heading">
       <p class="section-kicker">Elige tu mundo favorito</p>
-      <h2 id="categories-title">Explora por personajes</h2>
-      <p>Una colección de pequeños mundos esperando a ser coloreados.</p>
+      <h2 id="categories-title">Explora libros por categoría</h2>
+      <p>Entra en una colección temática y encuentra tu próximo libro para colorear.</p>
     </header>
-    <div class="category-grid" aria-label="Filtrar libros por personaje">
+    <nav class="category-grid" aria-label="Enlaces a categorías de libros">
       {categories.map((category) => (
-        <button class="category-tile" type="button" data-character-filter={category.id} aria-pressed="false">
+        <a class="category-tile" href={categoryHref(import.meta.env.BASE_URL, category.title)}>
           <span class:list={["category-illustration", `tone-${category.tone}`]} aria-hidden="true">
-            <span>{category.icon}</span>
-            <i>✦</i>
+            <span>{category.icon}</span><i>✦</i>
           </span>
           <strong>{category.title}</strong>
           <small>{category.description}</small>
-        </button>
+          <span class="category-count">{books.filter((book) => book.data.category === category.title).length} libros <span aria-hidden="true">↗</span></span>
+        </a>
       ))}
-    </div>
+    </nav>
     <div id="por-edad" class="age-filter">
       <div><p class="section-kicker">También puedes elegir</p><h3>Libros por edad</h3></div>
       <div class="age-options" aria-label="Filtrar libros por edad">
         <button type="button" data-age-filter="all" aria-pressed="true">Todas las edades</button>
         <button type="button" data-age-filter="3-6" aria-pressed="false">3–6 años</button>
-        <button type="button" data-age-filter="6-8" aria-pressed="false">6–8 años</button>
+        <button type="button" data-age-filter="4-8" aria-pressed="false">4–8 años</button>
         <button type="button" data-age-filter="8-10" aria-pressed="false">8–10 años</button>
       </div>
     </div>
     <div id="biblioteca" class="books-heading">
-      <div><p class="section-kicker">Nuevas aventuras</p><h3 data-results-title>Libros para descubrir</h3></div>
-      <button class="reset-filter" type="button" data-reset-filters>Ver todos</button>
+      <div><p class="section-kicker">Nuevas aventuras</p><h3>Libros para descubrir</h3></div>
+      <a class="reset-filter" href={`${import.meta.env.BASE_URL}libros/`}>Ver toda la biblioteca</a>
     </div>
     <p class="results-status" data-results-status aria-live="polite">{books.length} libros disponibles</p>
     <div class="books-grid" data-book-results>
       {books.map((book) => (
-        <div class="book-result" data-book-card data-book-characters={(book.data.characters ?? []).join(" ")} data-book-age={book.data.age}>
+        <div class="book-result" data-book-card data-book-age={book.data.age}>
           <BookCard book={book} />
         </div>
       ))}
@@ -59,48 +64,26 @@ const categories = [
   </div>
 </section>
 <script>
-  const categoryButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-character-filter]"));
   const ageButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-age-filter]"));
   const bookCards = Array.from(document.querySelectorAll<HTMLElement>("[data-book-card]"));
   const resultStatus = document.querySelector<HTMLElement>("[data-results-status]");
-  const resultTitle = document.querySelector<HTMLElement>("[data-results-title]");
   const emptyState = document.querySelector<HTMLElement>("[data-empty-state]");
-  const resetButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-reset-filters]"));
-  let activeCharacter: string | null = null;
-  let activeAge: string = "all";
-  const categoryNames = new Map<string, string>(categoryButtons.map((button) => [button.dataset.characterFilter ?? "", button.querySelector("strong")?.textContent ?? ""] as const));
+  let activeAge = "all";
 
   function renderBooks() {
     let visible = 0;
     for (const card of bookCards) {
-      const tags = (card.dataset.bookCharacters ?? "").split(/\s+/).filter(Boolean);
-      const age = card.dataset.bookAge ?? "";
-      const matchesCharacter = !activeCharacter || tags.includes(activeCharacter);
-      const matchesAge = activeAge === "all" || age === activeAge;
-      const matches = matchesCharacter && matchesAge;
+      const matches = activeAge === "all" || card.dataset.bookAge === activeAge;
       card.hidden = !matches;
       if (matches) visible += 1;
     }
-    for (const button of categoryButtons) button.setAttribute("aria-pressed", String(button.dataset.characterFilter === activeCharacter));
     for (const button of ageButtons) button.setAttribute("aria-pressed", String(button.dataset.ageFilter === activeAge));
-    const categoryLabel = activeCharacter ? categoryNames.get(activeCharacter) : null;
-    const ageLabel = activeAge === "all" ? null : `${activeAge} años`;
-    if (resultTitle) resultTitle.textContent = [categoryLabel, ageLabel].filter(Boolean).length ? `Libros: ${[categoryLabel, ageLabel].filter(Boolean).join(" · ")}` : "Libros para descubrir";
     if (resultStatus) resultStatus.textContent = `${visible} ${visible === 1 ? "libro disponible" : "libros disponibles"}`;
     if (emptyState) emptyState.hidden = visible > 0;
   }
 
-  categoryButtons.forEach((button) => button.addEventListener("click", () => {
-    activeCharacter = activeCharacter === button.dataset.characterFilter ? null : (button.dataset.characterFilter ?? null);
-    renderBooks();
-  }));
   ageButtons.forEach((button) => button.addEventListener("click", () => {
     activeAge = button.dataset.ageFilter ?? "all";
-    renderBooks();
-  }));
-  resetButtons.forEach((button) => button.addEventListener("click", () => {
-    activeCharacter = null;
-    activeAge = "all";
     renderBooks();
   }));
 </script>
@@ -111,15 +94,15 @@ const categories = [
   .section-heading h2 { margin:.4rem 0 0; color:#26352d; font-size:clamp(2rem,4vw,2.65rem); font-weight:1000; letter-spacing:-.05em; }
   .section-heading>p:last-child { margin:.55rem 0 0; color:#68776d; font-size:.93rem; }
   .category-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1.2rem; margin:2rem 0 3.5rem; }
-  .category-tile { display:flex; min-width:0; flex-direction:column; align-items:center; gap:.5rem; padding:1rem .5rem; border:1px solid transparent; border-radius:1.5rem; background:transparent; color:#26352d; cursor:pointer; transition:transform .2s,border-color .2s,background .2s; }
-  .category-tile:hover { transform:translateY(-4px); }.category-tile[aria-pressed=true] { border-color:#9ac9aa; background:#f2f8f3; }
+  .category-tile { display:flex; min-width:0; flex-direction:column; align-items:center; gap:.5rem; padding:1rem .5rem; border:1px solid transparent; border-radius:1.5rem; color:#26352d; text-decoration:none; transition:transform .2s,border-color .2s,background .2s; }
+  .category-tile:hover { transform:translateY(-4px); border-color:#d4e5d9; background:#f8fbf8; }
   .category-illustration { position:relative; display:grid; width:clamp(112px,15vw,166px); aspect-ratio:1; place-items:center; border-radius:50%; }
   .category-illustration>span { font-size:clamp(3.7rem,7vw,5.5rem); filter:drop-shadow(0 7px 4px #45545b20); }.category-illustration i { position:absolute; top:17%; right:19%; color:#fff; font-size:1.3rem; font-style:normal; }
   .tone-mint { background:#ccebe3; }.tone-peach { background:#f7e5bb; }.tone-lilac { background:#e4d3ee; }.tone-blue { background:#c7d5ef; }
-  .category-tile strong { font-size:clamp(1.15rem,2vw,1.5rem); font-weight:1000; }.category-tile small { color:#68776d; font-size:.73rem; font-weight:700; text-align:center; }
+  .category-tile strong { font-size:clamp(1.15rem,2vw,1.5rem); font-weight:1000; }.category-tile small { color:#68776d; font-size:.73rem; font-weight:700; text-align:center; }.category-count { color:#16834a; font-size:.72rem; font-weight:950; }
   .age-filter { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin:0 0 2.7rem; padding:1.2rem 1.4rem; border:1px solid #e2ebe4; border-radius:1.4rem; background:#f2f8f3; }
   .age-filter h3,.books-heading h3 { margin:.2rem 0 0; color:#26352d; font-size:1.55rem; font-weight:1000; letter-spacing:-.035em; }
-  .age-options { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.5rem; }.age-options button,.reset-filter { border:1px solid #d4e5d9; border-radius:999px; padding:.58rem .9rem; background:white; color:#526257; font-size:.76rem; font-weight:900; cursor:pointer; }
+  .age-options { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.5rem; }.age-options button,.reset-filter { border:1px solid #d4e5d9; border-radius:999px; padding:.58rem .9rem; background:white; color:#526257; font-size:.76rem; font-weight:900; cursor:pointer; text-decoration:none; }
   .age-options button[aria-pressed=true] { border-color:#80b2a4; background:#e8f5ed; color:#116b3c; }
   .books-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; }.books-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1.1rem; margin-top:.6rem; }
   .book-result[hidden] { display:none; }.book-result :global(.book-card) { height:100%; }
