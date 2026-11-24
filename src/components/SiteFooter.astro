@@ -1,0 +1,12 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<footer class="mt-20 border-t border-[#eee7df] bg-white/60">
+  <div class="container-page flex flex-col gap-4 py-9 text-sm text-[#777184] sm:flex-row sm:items-center sm:justify-between">
+    <p>© {new Date().getFullYear()} kids books. Hecho con cariño para pequeños artistas.</p>
+    <nav class="flex flex-wrap gap-4" aria-label="Enlaces del pie de página">
+      <a class="hover:text-ink" href={`${base}libros/`}>Biblioteca</a>
+      <a class="hover:text-ink" href="https://github.com/gpldroid/kidsbooks">Código del proyecto</a>
+    </nav>
+  </div>
+</footer>
