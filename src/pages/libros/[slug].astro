@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SiteHeader from "@components/SiteHeader.astro";
+import SiteFooter from "@components/SiteFooter.astro";
+
+export async function getStaticPaths() {
+  const books = await getCollection("books", ({ data }) => !data.draft);
+  return books.map((book) => ({ params: { slug: book.data.slug }, props: { book } }));
+}
+
+const { book } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<BaseLayout title={book.data.title} description={book.data.description}>
+  <SiteHeader />
+  <main class="container-page min-h-[65vh] py-12">
+    <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>← Volver a la biblioteca</a>
+    <article class="mt-7 grid items-start gap-9 md:grid-cols-[.9fr_1.1fr]">
+      <div class="rounded-[2rem] bg-[#e9ddff] p-5">
+        <img src={book.data.cover} alt={`Portada: ${book.data.title}`} class="w-full rounded-2xl bg-white shadow-lg" />
+      </div>
+      <div class="pt-2">
+        <div class="flex flex-wrap gap-2 text-xs font-extrabold">
+          <span class="rounded-full bg-[#e9ddff] px-3 py-1.5 text-[#66518e]">{book.data.category}</span>
+          <span class="rounded-full bg-[#d9f3e7] px-3 py-1.5 text-[#47765f]">Gratis</span>
+        </div>
+        <h1 class="mt-5 text-4xl font-black tracking-tight text-ink">{book.data.title}</h1>
+        <p class="mt-4 text-lg leading-8 text-[#777184]">{book.data.description}</p>
+        <dl class="mt-7 grid grid-cols-2 gap-3">
+          <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#938b9d]">Edad recomendada</dt><dd class="mt-1 font-black text-ink">{book.data.age} años</dd></div>
+          <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#938b9d]">Páginas</dt><dd class="mt-1 font-black text-ink">{book.data.pages}</dd></div>
+        </dl>
+        {book.data.pdf ? (
+          <a class="focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#8f78bd] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#8f78bd]/20 hover:bg-[#7860a7]" href={`${base.replace(/\/$/, "")}${book.data.pdf}`} download>Descargar libro gratis ↓</a>
+        ) : (
+          <p class="mt-8 rounded-2xl bg-[#fff1b8] p-4 text-sm font-bold text-[#75612a]">El PDF estará disponible próximamente.</p>
+        )}
+      </div>
+    </article>
+  </main>
+  <SiteFooter />
+</BaseLayout>
