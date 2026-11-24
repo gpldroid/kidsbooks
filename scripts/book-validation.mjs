@@ -66,7 +66,7 @@ export function validateBook(data, fileName, exists = fs.existsSync) {
   }
 
   for (const key of ["cover", "pdf"]) {
-    const value: unknown = data[key];
+    const value = data[key];
     if (value === undefined && key === "pdf" && data.draft === true) continue;
     if (value === undefined && key === "pdf") {
       errors.push(`${fileName}: un libro publicado necesita la ruta pdf.`);
