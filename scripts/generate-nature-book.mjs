@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, type PDFPage } from "pdf-lib";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -17,16 +17,16 @@ const black = rgb(0.05,0.05,0.05), green = rgb(0.13,0.42,0.27), blue = rgb(0.2,0
 const scenes = [
 "Exploradores observan huellas en un sendero","Gran árbol del bosque con raíces y bellotas","Mariposa posada sobre una flor","Abeja entre flores silvestres","Mariquita sobre una hoja","Pájaro adulto en una rama junto a su nido","Ardilla con una bellota junto a un tronco","Conejo en una pradera florida","Zorro tranquilo en un claro del bosque","Ciervo adulto con su cría","Erizo entre hojas y setas","Rana sobre una piedra junto a un estanque","Pato adulto con dos patitos","Peces de agua dulce entre plantas acuáticas","Tortuga junto a la orilla de un río","Montañas con sendero, nubes y pinos","Cascada, río, rocas y vegetación","Cactus y flores en un paisaje desértico","Orilla del mar con conchas y pozas de marea","Ballena en el océano con peces pequeños","Jardín de flores con regadera y caracol","Huerto con zanahorias, tomates y calabazas","Setas y helechos en el suelo del bosque","Luciérnagas sobre un prado al anochecer","Paisaje final con árbol, flores, ave, conejo y arroyo"
 ];
-function line(p,x1,y1,x2,y2,w=2){p.drawLine({start:{x:x1,y:y1},end:{x:x2,y:y2},thickness:w,color:black});}
-function circle(p,x,y,r,fill=false){p.drawCircle({x,y,size:r,borderColor:black,borderWidth:2,color:fill?rgb(1,1,1):undefined});}
-function ellipse(p,x,y,rx,ry){p.drawEllipse({x,y,xScale:rx,yScale:ry,borderColor:black,borderWidth:2,color:rgb(1,1,1)});}
-function leaf(p,x,y,s=1){p.drawSvgPath("M 0 0 C 12 22 38 22 48 0 C 35 -18 12 -18 0 0 Z",{x,y,scale:s,borderColor:black,borderWidth:2,color:rgb(1,1,1)});line(p,x+5*s,y,x+42*s,y,1);}
-function flower(p,x,y,s=1){circle(p,x,y,6*s);for(let a=0;a<6;a++){const t=a*Math.PI/3;circle(p,x+16*s*Math.cos(t),y+16*s*Math.sin(t),8*s);}line(p,x,y-7*s,x-3*s,y-38*s,2);leaf(p,x-3*s,y-27*s,.35);}
-function cloud(p,x,y,s=1){circle(p,x,y,13*s);circle(p,x+17*s,y+8*s,17*s);circle(p,x+37*s,y,13*s);line(p,x-13*s,y-12*s,x+49*s,y-12*s,2);}
-function tree(p,x,y,s=1){line(p,x,y,x,y+100*s,5);circle(p,x-25*s,y+95*s,35*s);circle(p,x+20*s,y+110*s,40*s);circle(p,x+48*s,y+85*s,30*s);line(p,x,y+30*s,x-35*s,y+60*s,3);line(p,x,y+48*s,x+35*s,y+78*s,3);}
-function animal(p,x,y,s=1,kind=0){ellipse(p,x,y,48*s,30*s);circle(p,x+42*s,y+28*s,25*s);circle(p,x+34*s,y+57*s,10*s);circle(p,x+55*s,y+57*s,10*s);circle(p,x+50*s,y+33*s,3*s);circle(p,x+68*s,y+25*s,3*s);line(p,x-25*s,y-22*s,x-30*s,y-55*s,3);line(p,x+12*s,y-22*s,x+10*s,y-55*s,3);line(p,x-15*s,y-25*s,x-18*s,y-55*s,3);line(p,x+22*s,y-25*s,x+24*s,y-55*s,3);if(kind%3===0){line(p,x-45*s,y+5*s,x-72*s,y+35*s,4);}}
-function landscape(p,i){cloud(p,125,675,.8);cloud(p,430,700,.65);line(p,55,210,540,210,2);if(i%3===0){tree(p,105,220,.8);tree(p,475,220,.7);}if(i%3===1){p.drawSvgPath("M 0 0 L 90 150 L 180 0 Z",{x:90,y:210,borderColor:black,borderWidth:2,color:rgb(1,1,1)});p.drawSvgPath("M 0 0 L 90 150 L 180 0 Z",{x:310,y:210,borderColor:black,borderWidth:2,color:rgb(1,1,1)});}if(i%3===2){for(let k=0;k<4;k++)flower(p,95+k*120,230,.65);}}
-function drawScene(p,i){landscape(p,i);const x=285,y=390;switch(i){
+function line(p: PDFPage,x1: number,y1: number,x2: number,y2: number,w=2){p.drawLine({start:{x:x1,y:y1},end:{x:x2,y:y2},thickness:w,color:black});}
+function circle(p: PDFPage,x: number,y: number,r: number,fill=false){p.drawCircle({x,y,size:r,borderColor:black,borderWidth:2,color:fill?rgb(1,1,1):undefined});}
+function ellipse(p: PDFPage,x: number,y: number,rx: number,ry: number){p.drawEllipse({x,y,xScale:rx,yScale:ry,borderColor:black,borderWidth:2,color:rgb(1,1,1)});}
+function leaf(p: PDFPage,x: number,y: number,s=1){p.drawSvgPath("M 0 0 C 12 22 38 22 48 0 C 35 -18 12 -18 0 0 Z",{x,y,scale:s,borderColor:black,borderWidth:2,color:rgb(1,1,1)});line(p,x+5*s,y,x+42*s,y,1);}
+function flower(p: PDFPage,x: number,y: number,s=1){circle(p,x,y,6*s);for(let a=0;a<6;a++){const t=a*Math.PI/3;circle(p,x+16*s*Math.cos(t),y+16*s*Math.sin(t),8*s);}line(p,x,y-7*s,x-3*s,y-38*s,2);leaf(p,x-3*s,y-27*s,.35);}
+function cloud(p: PDFPage,x: number,y: number,s=1){circle(p,x,y,13*s);circle(p,x+17*s,y+8*s,17*s);circle(p,x+37*s,y,13*s);line(p,x-13*s,y-12*s,x+49*s,y-12*s,2);}
+function tree(p: PDFPage,x: number,y: number,s=1){line(p,x,y,x,y+100*s,5);circle(p,x-25*s,y+95*s,35*s);circle(p,x+20*s,y+110*s,40*s);circle(p,x+48*s,y+85*s,30*s);line(p,x,y+30*s,x-35*s,y+60*s,3);line(p,x,y+48*s,x+35*s,y+78*s,3);}
+function animal(p: PDFPage,x: number,y: number,s=1,kind=0){ellipse(p,x,y,48*s,30*s);circle(p,x+42*s,y+28*s,25*s);circle(p,x+34*s,y+57*s,10*s);circle(p,x+55*s,y+57*s,10*s);circle(p,x+50*s,y+33*s,3*s);circle(p,x+68*s,y+25*s,3*s);line(p,x-25*s,y-22*s,x-30*s,y-55*s,3);line(p,x+12*s,y-22*s,x+10*s,y-55*s,3);line(p,x-15*s,y-25*s,x-18*s,y-55*s,3);line(p,x+22*s,y-25*s,x+24*s,y-55*s,3);if(kind%3===0){line(p,x-45*s,y+5*s,x-72*s,y+35*s,4);}}
+function landscape(p: PDFPage,i: number){cloud(p,125,675,.8);cloud(p,430,700,.65);line(p,55,210,540,210,2);if(i%3===0){tree(p,105,220,.8);tree(p,475,220,.7);}if(i%3===1){p.drawSvgPath("M 0 0 L 90 150 L 180 0 Z",{x:90,y:210,borderColor:black,borderWidth:2,color:rgb(1,1,1)});p.drawSvgPath("M 0 0 L 90 150 L 180 0 Z",{x:310,y:210,borderColor:black,borderWidth:2,color:rgb(1,1,1)});}if(i%3===2){for(let k=0;k<4;k++)flower(p,95+k*120,230,.65);}}
+function drawScene(p: PDFPage,i: number){landscape(p,i);const x=285,y=390;switch(i){
 case 0: animal(p,230,340,.8);animal(p,350,340,.8);for(let k=0;k<4;k++)ellipse(p,170+k*75,270,10,5);break;
 case 1: tree(p,285,260,1.7);for(let k=0;k<5;k++)leaf(p,120+k*65,300,.55);break;
 case 2: flower(p,285,330,1.6);ellipse(p,285,475,18,45);ellipse(p,245,475,30,17);ellipse(p,325,475,30,17);line(p,285,430,285,390,2);break;
@@ -53,7 +53,7 @@ case 22: for(let k=0;k<3;k++){circle(p,180+k*120,340,32);line(p,180+k*120,372,19
 case 23: for(let k=0;k<8;k++){circle(p,100+(k%4)*115,300+Math.floor(k/4)*90,12);line(p,100+(k%4)*115,312+Math.floor(k/4)*90,100+(k%4)*115,355+Math.floor(k/4)*90,2);}break;
 case 24: tree(p,160,250,.9);animal(p,390,350,.65);flower(p,280,260,.7);break;
 }}
-function drawCover(p,back=false){p.drawRectangle({x:0,y:0,width:W,height:H,color:rgb(.82,.94,.84)});p.drawCircle({x:490,y:700,size:75,color:rgb(.99,.82,.35)});tree(p,120,180,1.6);tree(p,470,180,1.4);p.drawSvgPath("M 0 0 C 80 120 170 120 250 0",{x:170,y:230,scale:1.1,borderColor:blue,borderWidth:35});if(!back){p.drawText("Pequeños Exploradores",{x:65,y:680,size:29,font:bold,color:green});p.drawText("de la Naturaleza",{x:95,y:635,size:34,font:bold,color:blue});p.drawText("25 dibujos para descubrir y colorear",{x:100,y:585,size:16,font,color:black});p.drawText("4–8 años",{x:250,y:110,size:22,font:bold,color:green});}else{p.drawText("¡Gracias por explorar!",{x:140,y:650,size:28,font:bold,color:green});p.drawText("La naturaleza es nuestro hogar.",{x:135,y:600,size:18,font,color:black});}}
+function drawCover(p: PDFPage,back=false){p.drawRectangle({x:0,y:0,width:W,height:H,color:rgb(.82,.94,.84)});p.drawCircle({x:490,y:700,size:75,color:rgb(.99,.82,.35)});tree(p,120,180,1.6);tree(p,470,180,1.4);p.drawSvgPath("M 0 0 C 80 120 170 120 250 0",{x:170,y:230,scale:1.1,borderColor:blue,borderWidth:35});if(!back){p.drawText("Pequeños Exploradores",{x:65,y:680,size:29,font:bold,color:green});p.drawText("de la Naturaleza",{x:95,y:635,size:34,font:bold,color:blue});p.drawText("25 dibujos para descubrir y colorear",{x:100,y:585,size:16,font,color:black});p.drawText("4–8 años",{x:250,y:110,size:22,font:bold,color:green});}else{p.drawText("¡Gracias por explorar!",{x:140,y:650,size:28,font:bold,color:green});p.drawText("La naturaleza es nuestro hogar.",{x:135,y:600,size:18,font,color:black});}}
 {
  const p=pdf.addPage([W,H]);drawCover(p);
 }
