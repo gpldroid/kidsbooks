@@ -5,6 +5,13 @@ description: "Libro infantil para colorear sobre animales, plantas, bosques, mon
 age: "4-8"
 pages: 53
 category: "Naturaleza"
+keywords:
+  - "libro de naturaleza para colorear"
+  - "animales para colorear"
+  - "plantas y flores para niños"
+  - "bosques y océanos"
+  - "dibujos educativos para imprimir"
+  - "PDF infantil A4"
 characters:
   - "Naturaleza"
 cover: "/images/covers/pequenos-exploradores-de-la-naturaleza.svg"
