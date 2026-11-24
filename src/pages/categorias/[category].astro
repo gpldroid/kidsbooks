@@ -4,7 +4,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import Header from "@components/Header.astro";
 import SiteFooter from "@components/SiteFooter.astro";
 import BookCard from "@components/BookCard.astro";
-import { slugify } from "@utils/taxonomy";
+import { slugify } from "../../utils/taxonomy";
 
 export async function getStaticPaths() {
   const books = await getCollection("books", ({ data }) => !data.draft);
