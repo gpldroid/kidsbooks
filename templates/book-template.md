@@ -5,6 +5,10 @@ description: "Descripción clara y específica del tema y contenido del libro, e
 age: "4-8"
 pages: 53
 category: "Fantasía"
+keywords:
+  - "libro para colorear [tema]"
+  - "dibujos de [tema] para niños"
+  - "PDF para imprimir"
 characters: []
 cover: "/images/covers/titulo-del-libro.svg"
 pdf: "/books/titulo-del-libro.pdf"
