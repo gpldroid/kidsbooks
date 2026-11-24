@@ -21,8 +21,8 @@ Biblioteca gratuita de libros infantiles para colorear, descargar e imprimir. Si
 ## Requisitos
 
 - Node.js 22 o superior.
-- npm 10 o superior (incluido con Node.js).
-- Git para clonar y publicar cambios.
+- npm 10 o superior.
+- Git.
 
 ## Instalación y ejecución local
 
@@ -34,18 +34,6 @@ npm run dev
 ```
 
 Abre la URL local que muestra Astro, normalmente `http://localhost:4321/kidsbooks/`.
-
-## Diseño y personalización
-
-La identidad visual está centralizada en `src/styles/global.css`: modifica allí los colores, tipografía, sombras, radios, navegación, tarjetas y puntos de ruptura. Los componentes reutilizables están en `src/components/`:
-
-- `SiteHeader.astro`: marca, navegación de escritorio y barra inferior móvil.
-- `SiteFooter.astro`: pie de página y enlaces para compartir.
-- `BookCard.astro`: tarjeta reutilizable de cada libro.
-- `ScrollControls.astro`: botones accesibles para ir al inicio y al final.
-- `BaseLayout.astro`: metadatos, estilos globales y estructura común.
-
-Los efectos de profundidad usan CSS `perspective`, `transform`, gradientes y sombras; no requieren JavaScript ni librerías de animación. Se respeta `prefers-reduced-motion` para usuarios que reducen movimiento. Los iconos son SVG inline para mantener la web ligera y evitar dependencias externas.
 
 ## Comandos disponibles
 
@@ -67,47 +55,71 @@ npm run check
 npm run build
 ```
 
+## Diseño y personalización
+
+La identidad visual está centralizada en `src/styles/global.css`. Los componentes reutilizables están en `src/components/`:
+
+- `SiteHeader.astro`: marca y navegación.
+- `SiteFooter.astro`: pie de página y enlaces para compartir.
+- `BookCard.astro`: tarjeta de cada libro.
+- `ScrollControls.astro`: controles accesibles de desplazamiento.
+- `BaseLayout.astro`: metadatos, estilos y estructura común.
+
 ## Añadir un libro
 
-1. Crea una portada y guárdala en `public/images/covers/`.
-2. Guarda el PDF final en `public/books/`.
-3. Copia `templates/book-template.md` a `src/content/books/mi-libro.md`.
-4. Edita el frontmatter y usa un `slug` único, en minúsculas y con guiones.
-5. Comprueba que las rutas `cover` y `pdf` comiencen por `/` y apunten a archivos reales dentro de `public/`.
-6. Mantén `draft: true` mientras preparas el libro.
-7. Cuando el PDF y la portada estén revisados, cambia a `draft: false`.
+1. Define el tema, edad, objetivo y paginación con `templates/book-production-brief.md`.
+2. Sigue el flujo editorial de [Producción de libros](docs/PRODUCCION-DE-LIBROS.md).
+3. Genera y revisa las ilustraciones con [Prompts de ChatGPT](docs/PROMPTS-CHATGPT.md).
+4. Maqueta y exporta siguiendo la [Guía de Canva](docs/GUIA-CANVA.md).
+5. Guarda la portada en `public/images/covers/` y el PDF final en `public/books/`.
+6. Copia `templates/book-template.md` a `src/content/books/<slug>.md` y completa el frontmatter.
+7. Mantén `draft: true` mientras falte cualquier archivo o revisión. Cambia a `draft: false` solo cuando PDF y portada estén dentro de `public/` y la validación pase.
+8. Ejecuta las comprobaciones y revisa el resultado local antes de publicar.
 
-Ejemplo:
+La colección actual usa este esquema en `src/content.config.ts`:
+
+| Campo | Tipo / regla |
+|---|---|
+| `title` | Texto, 3-90 caracteres |
+| `slug` | Minúsculas, números y guiones |
+| `description` | Texto, 20-220 caracteres |
+| `age` | Texto, por ejemplo `3-6` |
+| `pages` | Entero positivo, máximo 200 |
+| `category` | Texto |
+| `cover` | Ruta local que empieza por `/` |
+| `pdf` | Ruta local opcional para borradores; obligatoria al publicar |
+| `featured` | Booleano |
+| `draft` | Booleano |
+| `publishedAt` | Fecha |
+
+Ejemplo de frontmatter:
 
 ```yaml
 ---
-title: "Animales del bosque"
-slug: "animales-del-bosque"
-description: "Descubre animales del bosque con dibujos sencillos para colorear."
+title: "Frutas Divertidas y Felices"
+slug: "frutas-divertidas-y-felices"
+description: "Libro infantil para colorear con 25 dibujos sencillos de frutas y páginas blancas de protección para imprimir."
 age: "3-6"
-pages: 20
-category: "Animales"
-cover: "/images/covers/animales-del-bosque.svg"
-pdf: "/books/animales-del-bosque.pdf"
-featured: true
-draft: false
+pages: 53
+category: "Frutas"
+cover: "/images/covers/frutas-divertidas-y-felices.svg"
+pdf: "/books/frutas-divertidas-y-felices.pdf"
+featured: false
+draft: true
 publishedAt: "2026-11-24"
 ---
 ```
 
-Los borradores no aparecen en el sitio público. Un libro publicado debe tener PDF y portada existentes; `npm run validate` lo comprueba antes del build.
+No añadas campos como `tags` o `ageRange` al frontmatter hasta ampliar también el schema de `src/content.config.ts`. El ejemplo anterior es compatible con el esquema actual; cambia a `draft: false` únicamente cuando los dos archivos existan y estén revisados.
 
-## Flujo ChatGPT + Canva
+## Libro de referencia: Frutas Divertidas y Felices
 
-1. Define tema, edad y número de páginas usando `templates/book-production-brief.md`.
-2. Genera ilustraciones originales con las instrucciones de `docs/PROMPTS-CHATGPT.md`.
-3. Revisa cada ilustración: fondo blanco, contornos claros, sin grises, marcas de agua ni contenido deformado.
-4. Maqueta portada e interiores en Canva siguiendo `docs/GUIA-CANVA.md`.
-5. Exporta y revisa el PDF página por página.
-6. Añade los archivos y la ficha Markdown al repositorio.
-7. Ejecuta las comprobaciones y publica mediante GitHub Actions.
+Se ha producido una primera edición de **53 páginas A4 verticales**:
 
-La generación de imágenes y el diseño en Canva son pasos manuales. El repositorio automatiza validación, pruebas, build y despliegue; no utiliza APIs de ChatGPT ni Canva.
+- Portada a color, página de bienvenida en español, 25 ilustraciones de frutas en blanco y negro, 25 páginas completamente blancas alternadas después de cada ilustración y contraportada.
+- PDF exportado y revisado: 53 páginas; las páginas 4, 6, 8, ..., 52 son páginas blancas; todas las páginas tienen proporción A4 vertical.
+- Diseño importado en Canva: [Abrir Frutas Divertidas y Felices](https://www.canva.com/d/wHkroUzXgGc6CTJ).
+- La copia PDF de trabajo se conserva fuera del repositorio durante esta fase. **No está todavía publicada en `public/books/` ni registrada como libro público en Content Collections.** Sigue `docs/LIBRO-FRUTAS-DIVERTIDAS.md` para completar esa integración sin dar por publicado un archivo que aún no está en el repositorio.
 
 ## Publicación en GitHub Pages
 
@@ -116,15 +128,13 @@ El proyecto está configurado para este repositorio:
 - `site: https://gpldroid.github.io`
 - `base: /kidsbooks`
 
-Para activar el despliegue:
-
 1. En GitHub abre **Settings → Pages**.
-2. En **Build and deployment**, selecciona **GitHub Actions** como Source.
-3. Confirma que el workflow `.github/workflows/deploy.yml` está habilitado.
-4. Haz push a la rama `main`.
-5. Revisa **Actions** hasta que terminen los trabajos Build y Deploy.
+2. En **Build and deployment**, selecciona **GitHub Actions**.
+3. Confirma que `.github/workflows/deploy.yml` está habilitado.
+4. Haz push a `main`.
+5. Revisa **Actions** hasta que terminen Build y Deploy.
 
-Cada push a `main` ejecuta las comprobaciones y publica el resultado si todo pasa. También puedes iniciar el workflow manualmente desde Actions.
+Cada push a `main` ejecuta validación, pruebas, comprobación, build y despliegue.
 
 ## Estructura del proyecto
 
@@ -138,16 +148,14 @@ Cada push a `main` ejecuta las comprobaciones y publica el resultado si todo pas
 │   ├── DEPLOY-GITHUB-PAGES.md
 │   ├── GUIA-CANVA.md
 │   ├── LICENCIAS-Y-DERECHOS.md
+│   ├── LIBRO-FRUTAS-DIVERTIDAS.md
 │   ├── PRODUCCION-DE-LIBROS.md
 │   └── PROMPTS-CHATGPT.md
 ├── public/
 │   ├── images/
-│   ├── favicon.svg
+│   ├── books/
 │   └── robots.txt
 ├── scripts/
-│   ├── book-validation.mjs
-│   ├── book-validation.test.mjs
-│   └── validate-books.mjs
 ├── src/
 │   ├── components/
 │   ├── content/books/
@@ -156,6 +164,8 @@ Cada push a `main` ejecuta las comprobaciones y publica el resultado si todo pas
 │   ├── styles/
 │   └── content.config.ts
 ├── templates/
+│   ├── book-production-brief.md
+│   └── book-template.md
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
@@ -163,6 +173,7 @@ Cada push a `main` ejecuta las comprobaciones y publica el resultado si todo pas
 
 ## Documentación
 
+- [Plan específico del libro de frutas](docs/LIBRO-FRUTAS-DIVERTIDAS.md)
 - [Producción de libros](docs/PRODUCCION-DE-LIBROS.md)
 - [Prompts de ChatGPT](docs/PROMPTS-CHATGPT.md)
 - [Guía de Canva](docs/GUIA-CANVA.md)
@@ -174,7 +185,3 @@ Cada push a `main` ejecuta las comprobaciones y publica el resultado si todo pas
 ## Licencias y uso responsable
 
 Publica únicamente contenido original o recursos para los que tengas derechos de distribución. Revisa las condiciones vigentes de las herramientas y recursos utilizados. Consulta [Licencias y derechos](docs/LICENCIAS-Y-DERECHOS.md).
-
-## Coste y límites
-
-Astro, Tailwind CSS y GitHub Actions no requieren suscripciones para este flujo. GitHub Pages puede alojar sitios estáticos en repositorios públicos con GitHub Free, sujeto a sus límites y condiciones. Esta web está pensada como biblioteca gratuita, no como tienda ni plataforma de transacciones comerciales.
