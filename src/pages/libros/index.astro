@@ -8,23 +8,23 @@ import BookCard from "@components/BookCard.astro";
 const books = (await getCollection("books", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 ---
-<BaseLayout title="Biblioteca gratuita" description="Todos nuestros libros infantiles gratuitos para colorear e imprimir.">
+<BaseLayout title="Libros para colorear" description="Explora nuestra colección de libros infantiles gratuitos para colorear e imprimir.">
   <SiteHeader />
   <main class="container-page min-h-[65vh] py-14">
     <div class="max-w-2xl">
-      <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">Colección completa</p>
-      <h1 class="mt-2 text-4xl font-black tracking-tight text-ink">Biblioteca de libros</h1>
-      <p class="mt-4 leading-7 text-[#777184]">Todos los libros son gratuitos. Elige una colección, descarga el PDF e imprime tus páginas favoritas.</p>
+      <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">Para pequeños artistas</p>
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-ink">Libros para colorear</h1>
+      <p class="mt-4 leading-7 text-[#777184]">Descubre libros infantiles gratuitos. Elige tu favorito, descarga el PDF disponible y disfruta coloreando.</p>
     </div>
     {books.length > 0 ? (
       <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {books.map((book) => <BookCard book={book} />)}
       </div>
     ) : (
-      <div class="mt-10 rounded-[2rem] border border-dashed border-[#d9cce9] bg-[#f8f3ff] px-6 py-16 text-center">
+      <div class="mt-10 rounded-[2rem] border border-[#eee7df] bg-white px-6 py-14 text-center soft-shadow">
         <span class="text-4xl" aria-hidden="true">🌈</span>
-        <h2 class="mt-4 text-xl font-black text-ink">Estamos preparando la biblioteca</h2>
-        <p class="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#777184]">Todavía no hay libros publicados. Muy pronto encontrarás aquí nuevas páginas para colorear.</p>
+        <h2 class="mt-4 text-xl font-black text-ink">No hay títulos disponibles en este momento</h2>
+        <p class="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#777184]">Vuelve a visitarnos para descubrir nuevas propuestas creativas.</p>
       </div>
     )}
   </main>
