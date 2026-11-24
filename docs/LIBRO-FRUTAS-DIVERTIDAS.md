@@ -1,6 +1,6 @@
 # Plan editorial: Frutas Divertidas y Felices
 
-**Estado:** ficha y portada SVG integradas en Astro como borrador; PDF maestro verificado localmente, pendiente de incorporarse al repositorio para habilitar la publicación.  
+**Estado:** PDF, portada SVG y ficha Astro integrados en `main`; ficha publicada (`draft: false`). Pendiente comprobar el despliegue público final.  
 **Slug:** `frutas-divertidas-y-felices`  
 **Idioma:** español  
 **Edad objetivo:** 3-6 años  
@@ -95,7 +95,7 @@ Las páginas blancas protectoras son exactamente las páginas pares de la 4 a la
 | Validador de número real de páginas PDF | Implementado con `pdf-lib`; prueba de unidad añadida |
 | Validación, build y publicación del libro | Workflow de GitHub Actions iniciado tras la publicación de la ficha |
 
-El PDF maestro ya está en `public/books/frutas_divertidas_y_felices_53_paginas_final.pdf`. Se inspeccionó su cabecera PDF, el árbol de páginas (53) y las dimensiones A4 verticales (595.2756 × 841.8898 puntos). La ficha de Astro ahora tiene `pdf` configurado, `draft: false` y `featured: true`. La validación automática también compara el recuento real con `pages` mediante `pdf-lib`.
+El PDF maestro está en `public/books/frutas_divertidas_y_felices_53_paginas_final.pdf`. La validación automatizada abre el PDF con `pdf-lib`, compara el recuento real con `pages` y comprueba que cada página sea A4 vertical (595.2756 × 841.8898 puntos, con tolerancia de 1 punto). La ficha tiene `pdf` configurado, `draft: false` y `featured: true`.
 
 ## 4. Integración en el sitio
 
@@ -123,7 +123,7 @@ publishedAt: "2026-11-24"
 ---
 ```
 
-**No cambies `draft: false` a `false`** hasta que ambos archivos existan en `public/`, sus rutas coincidan con el frontmatter y todas las pruebas pasen. El schema actual no declara `tags` ni `ageRange`; no agregues esos campos sin modificar también `src/content.config.ts` y sus validaciones.
+El libro ya está publicado en la colección (`draft: false`) porque los archivos requeridos están integrados y la validación de contenido y las pruebas unitarias pasaron. Si se sustituye el PDF o la portada, vuelve a marcarlo como borrador hasta repetir las comprobaciones. El schema actual no declara `tags` ni `ageRange`; no agregues esos campos sin modificar también `src/content.config.ts` y sus validaciones.
 
 ## 5. Próximos pasos
 
@@ -152,7 +152,7 @@ publishedAt: "2026-11-24"
 - [ ] 25 páginas completamente blancas en páginas 4, 6, 8, ..., 52.
 - [ ] Sin páginas duplicadas, accidentales o fuera de orden.
 - [x] Portada SVG independiente integrada; sustituirla si se decide usar la exportación final de Canva.
-- [ ] PDF dentro de `public/` (la portada ya está integrada).
+- [x] PDF dentro de `public/` y portada SVG integrada.
 - [ ] Frontmatter compatible con Astro Content Collections.
 - [ ] Pruebas, validación, TypeScript/Astro y build correctos.
 - [ ] Descarga pública probada después del despliegue.
