@@ -61,15 +61,19 @@ export function validateBook(data, fileName, exists = fs.existsSync) {
   if (typeof data.featured !== "boolean") {
     errors.push(`${fileName}: featured debe ser true o false.`);
   }
-  if (typeof data.publishedAt !== "string" || Number.isNaN(Date.parse(data.publishedAt))) {
+  if (typeof data.publishedAt !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(data.publishedAt) || Number.isNaN(Date.parse(`${data.publishedAt}T00:00:00Z`))) {
     errors.push(`${fileName}: publishedAt debe ser una fecha válida (AAAA-MM-DD).`);
   }
 
   for (const key of ["cover", "pdf"]) {
-    const value = data[key];
+    const value: unknown = data[key];
     if (value === undefined && key === "pdf" && data.draft === true) continue;
     if (value === undefined && key === "pdf") {
       errors.push(`${fileName}: un libro publicado necesita la ruta pdf.`);
+      continue;
+    }
+    if (typeof value !== "string") {
+      errors.push(`${fileName}: ${key} debe ser una ruta de texto.`);
       continue;
     }
     const diskPath = resolvePublicAsset(value);
@@ -100,10 +104,20 @@ export async function validatePdfPageCount(pdfPath, expectedPages) {
     const bytes = await fs.promises.readFile(pdfPath);
     const document = await PDFDocument.load(bytes, { updateMetadata: false });
     const actualPages = document.getPageCount();
+    const errors = [];
     if (actualPages !== expectedPages) {
-      return [`PDF ${pdfPath}: pages declara ${expectedPages}, pero el archivo contiene ${actualPages} páginas.`];
+      errors.push(`PDF ${pdfPath}: pages declara ${expectedPages}, pero el archivo contiene ${actualPages} páginas.`);
     }
-    return [];
+    const expectedWidth = 595.2756;
+    const expectedHeight = 841.8898;
+    document.getPages().forEach((page, index) => {
+      const { width, height } = page.getSize();
+      const isA4Portrait = Math.abs(width - expectedWidth) <= 1 && Math.abs(height - expectedHeight) <= 1;
+      if (!isA4Portrait) {
+        errors.push(`PDF ${pdfPath}: la página ${index + 1} no es A4 vertical (${width.toFixed(2)} × ${height.toFixed(2)} pt).`);
+      }
+    });
+    return errors;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     return [`PDF ${pdfPath}: no se pudo leer o validar el documento: ${message}`];
