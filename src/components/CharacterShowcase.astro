@@ -1,0 +1,196 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BookCard from "@components/BookCard.astro";
+
+interface Props {
+  books: CollectionEntry<"books">[];
+}
+
+const { books } = Astro.props;
+const characters = [
+  { id: "fruits", label: "Frutas", subtitle: "Dulces y alegres", color: "mint", icon: "🍓" },
+  { id: "animals", label: "Animales", subtitle: "Amigos curiosos", color: "lemon", icon: "🦊" },
+  { id: "princesses", label: "Fantasía", subtitle: "Magia e ilusión", color: "lilac", icon: "🧚" },
+  { id: "heroes", label: "Aventuras", subtitle: "勇勇", color: "blue", icon: "🚀" }
+];
+---
+<section class="character-showcase" aria-labelledby="character-title">
+  <div class="showcase-decor decor-star" aria-hidden="true">✦</div>
+  <div class="showcase-decor decor-leaf" aria-hidden="true">❧</div>
+  <div class="showcase-inner">
+    <header class="showcase-heading">
+      <p class="showcase-eyebrow">Un mundo de imaginación</p>
+      <h1 id="character-title">Explora por personajes</h1>
+      <p>Elige tu mundo favorito y descubre libros para colorear.</p>
+    </header>
+
+    <div class="character-carousel">
+      <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Ver personajes anteriores">‹</button>
+      <div class="character-track" data-character-track tabindex="0" aria-label="Personajes y categorías">
+        {characters.map((character) => (
+          <button
+            class="character-option"
+            type="button"
+            data-character-filter={character.id}
+            aria-pressed="false"
+          >
+            <span class:list={["character-art", `art-${character.color}`]} aria-hidden="true">
+              {character.id === "fruits" && (
+                <svg viewBox="0 0 180 180" role="img">
+                  <path d="M89 48c-3-18 10-27 24-27-1 13-9 23-24 27" fill="#79a985"/>
+                  <path d="M90 49c-18-13-35-3-35 17 0 24 18 48 35 48s35-24 35-48c0-20-17-30-35-17" fill="#e85f68"/>
+                  <path d="M89 51c-8-15-23-15-31-8 8 11 19 15 31 8" fill="#78aa7f"/>
+                  <path d="M68 72c-8 17 0 31 8 36" fill="none" stroke="#ff9a99" stroke-width="6" stroke-linecap="round"/>
+                  <circle cx="80" cy="79" r="3.8" fill="#35465a"/><circle cx="101" cy="79" r="3.8" fill="#35465a"/>
+                  <path d="M84 91q7 8 14 0" fill="none" stroke="#35465a" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="69" cy="89" r="6" fill="#f69a8e" opacity=".8"/><circle cx="112" cy="89" r="6" fill="#f69a8e" opacity=".8"/>
+                  <path d="M88 119v18m-13 0h27" stroke="#658b78" stroke-width="6" stroke-linecap="round"/>
+                </svg>
+              )}
+              {character.id === "animals" && (
+                <svg viewBox="0 0 180 180" role="img">
+                  <path d="M52 75 46 35q1-8 9-3l31 25m38 18 8-42q-1-8-9-3l-31 25" fill="#d98254" stroke="#a95e43" stroke-width="4" stroke-linejoin="round"/>
+                  <path d="M61 67q29-25 58 0l13 42q-2 32-42 35-40-3-42-35z" fill="#df8c5b"/>
+                  <path d="M76 47q14-12 28 0l-8 19H83z" fill="#fff0d8"/>
+                  <path d="M58 93q-15 9-11 29 5 15 19 12" fill="none" stroke="#f5c59c" stroke-width="13" stroke-linecap="round"/>
+                  <ellipse cx="77" cy="92" rx="4" ry="5" fill="#35465a"/><ellipse cx="105" cy="92" rx="4" ry="5" fill="#35465a"/>
+                  <ellipse cx="91" cy="106" rx="9" ry="6" fill="#f8d9bd"/>
+                  <path d="M88 105q3 5 6 0" fill="none" stroke="#694b45" stroke-width="2.5"/>
+                  <path d="M74 132q17 10 34 0" fill="none" stroke="#fff0d8" stroke-width="9" stroke-linecap="round"/>
+                </svg>
+              )}
+              {character.id === "princesses" && (
+                <svg viewBox="0 0 180 180" role="img">
+                  <path d="M61 66q-2-40 30-42 32 2 30 42l-12 14H73z" fill="#d98aa8"/>
+                  <path d="m62 63 9-24 17 16 19-19 13 28" fill="#f3c66d" stroke="#d9a85e" stroke-width="3"/>
+                  <path d="M73 76q18-15 36 0l9 28q-3 22-27 23-24-1-27-23z" fill="#f6c5b6"/>
+                  <path d="M77 87q4-5 8 0m11 0q4-5 8 0" fill="none" stroke="#594d66" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M85 99q7 7 14 0" fill="none" stroke="#b96f85" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="m90 122-24 35h49z" fill="#b9a3e8"/>
+                  <path d="m67 130-17-14 9 29 19 8m34-23 17-14-9 29-19 8" fill="#d7f1ed" stroke="#9ccdc7" stroke-width="3" stroke-linejoin="round"/>
+                  <path d="m90 119 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z" fill="#f7d777"/>
+                </svg>
+              )}
+              {character.id === "heroes" && (
+                <svg viewBox="0 0 180 180" role="img">
+                  <path d="M65 69q-7-26 8-38 18-15 36 0 15 13 7 38l-8 13H73z" fill="#e7f1f3" stroke="#688da4" stroke-width="4"/>
+                  <rect x="65" y="57" width="54" height="49" rx="20" fill="#c9e3eb" stroke="#688da4" stroke-width="4"/>
+                  <rect x="71" y="63" width="42" height="34" rx="15" fill="#31465e"/>
+                  <circle cx="86" cy="76" r="3" fill="#fff"/><circle cx="100" cy="72" r="2" fill="#fff"/>
+                  <path d="M76 111h32l8 28H68z" fill="#e9f2f4" stroke="#688da4" stroke-width="4" stroke-linejoin="round"/>
+                  <rect x="83" y="117" width="18" height="13" rx="3" fill="#75c4b8"/>
+                  <path d="m68 118-17 17m62-17 17 17M80 139l-5 15m26-15 5 15" stroke="#688da4" stroke-width="7" stroke-linecap="round"/>
+                  <path d="m47 134-8 3m94-3 8 3" stroke="#688da4" stroke-width="5" stroke-linecap="round"/>
+                </svg>
+              )}
+            </span>
+            <span class="character-name">{character.label}</span>
+            <span class="character-subtitle">{character.subtitle}</span>
+          </button>
+        ))}
+      </div>
+      <button class="carousel-arrow" type="button" data-carousel-next aria-label="Ver más personajes">›</button>
+    </div>
+
+    <div class="books-heading">
+      <div>
+        <p class="showcase-eyebrow">Nuevas aventuras</p>
+        <h2 data-results-title>Libros para descubrir</h2>
+      </div>
+      <button class="show-all" type="button" data-show-all>Ver todos</button>
+    </div>
+    <p class="results-status" data-results-status aria-live="polite">{books.length} libros disponibles</p>
+    <div class="showcase-books" data-character-books>
+      {books.map((book) => (
+        <article class="showcase-book" data-book-card data-book-characters={(book.data.characters ?? []).join(" ")}>
+          <BookCard book={book} />
+        </article>
+      ))}
+    </div>
+    <div class="no-character-books" data-empty-state hidden>
+      <span aria-hidden="true">🌱</span>
+      <h3>¡Muy pronto habrá más aventuras!</h3>
+      <p>Estamos preparando nuevos libros para esta categoría.</p>
+      <button type="button" data-show-all>Ver todos los libros</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const track = document.querySelector("[data-character-track]");
+  const filters = Array.from(document.querySelectorAll("[data-character-filter]"));
+  const cards = Array.from(document.querySelectorAll("[data-book-card]"));
+  const status = document.querySelector("[data-results-status]");
+  const title = document.querySelector("[data-results-title]");
+  const empty = document.querySelector("[data-empty-state]");
+  const allButtons = Array.from(document.querySelectorAll("[data-show-all]"));
+  const labels = new Map(filters.map((button) => [button.dataset.characterFilter, button.querySelector(".character-name")?.textContent ?? "Libros"]));
+
+  function applyFilter(character) {
+    let visible = 0;
+    for (const card of cards) {
+      const tags = (card.dataset.bookCharacters ?? "").split(/\\s+/).filter(Boolean);
+      const matches = !character || tags.includes(character);
+      card.hidden = !matches;
+      if (matches) visible += 1;
+    }
+    for (const button of filters) {
+      const selected = button.dataset.characterFilter === character;
+      button.setAttribute("aria-pressed", String(selected));
+    }
+    if (title) title.textContent = character ? `Libros de ${labels.get(character) ?? "esta categoría"}` : "Libros para descubrir";
+    if (status) status.textContent = `${visible} ${visible === 1 ? "libro disponible" : "libros disponibles"}`;
+    if (empty) empty.hidden = visible > 0;
+  }
+
+  filters.forEach((button) => button.addEventListener("click", () => applyFilter(button.dataset.characterFilter)));
+  allButtons.forEach((button) => button.addEventListener("click", () => applyFilter(null)));
+  document.querySelector("[data-carousel-prev]")?.addEventListener("click", () => track?.scrollBy({ left: -240, behavior: "smooth" }));
+  document.querySelector("[data-carousel-next]")?.addEventListener("click", () => track?.scrollBy({ left: 240, behavior: "smooth" }));
+</script>
+
+<style>
+  .character-showcase { position: relative; overflow: hidden; padding: clamp(2.5rem, 6vw, 5rem) 0 4.5rem; background: radial-gradient(ellipse at 12% 20%, #e9f5ee 0, transparent 28rem), radial-gradient(ellipse at 90% 10%, #f1eafb 0, transparent 26rem), #fffaf1; }
+  .showcase-inner { position: relative; z-index: 1; width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
+  .showcase-heading { text-align: center; }
+  .showcase-eyebrow { margin: 0; color: #8d79b5; font-size: .72rem; font-weight: 900; letter-spacing: .17em; text-transform: uppercase; }
+  .showcase-heading h1 { margin: .35rem 0 0; color: #35546a; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 1000; letter-spacing: -.045em; }
+  .showcase-heading > p:last-child { margin: .6rem 0 0; color: #7b7b82; font-size: .98rem; }
+  .character-carousel { display: grid; grid-template-columns: 2.8rem minmax(0,1fr) 2.8rem; align-items: center; gap: .75rem; margin: 2rem auto 3.4rem; }
+  .character-track { display: grid; grid-auto-columns: minmax(140px, 1fr); grid-auto-flow: column; gap: clamp(.65rem, 2.5vw, 2rem); overflow-x: auto; padding: .4rem .2rem 1rem; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .character-track::-webkit-scrollbar { display: none; }
+  .character-option { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: .45rem; padding: .25rem; border: 0; border-radius: 1.5rem; background: transparent; color: #35546a; cursor: pointer; scroll-snap-align: center; transition: transform .2s ease; }
+  .character-option:hover { transform: translateY(-5px); }
+  .character-option:focus-visible, .carousel-arrow:focus-visible, .show-all:focus-visible { outline: 3px solid #8e78bd; outline-offset: 4px; }
+  .character-art { display: grid; width: clamp(116px, 16vw, 178px); aspect-ratio: 1; place-items: center; overflow: hidden; border: 4px solid transparent; border-radius: 50%; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .character-art svg { width: 88%; height: 88%; }
+  .art-mint { background: #c9e9e1; }
+  .art-lemon { background: #f6e7b9; }
+  .art-lilac { background: #e3d0ed; }
+  .art-blue { background: #bdcbea; }
+  .character-option[aria-pressed="true"] .character-art { border-color: #668fa0; box-shadow: 0 0 0 6px rgb(102 143 160 / 13%), 0 12px 24px rgb(68 88 103 / 13%); transform: scale(1.035); }
+  .character-name { font-size: clamp(1.2rem, 2.2vw, 1.65rem); font-weight: 1000; letter-spacing: -.035em; }
+  .character-subtitle { color: #8b8790; font-size: .75rem; font-weight: 700; }
+  .carousel-arrow { display: grid; width: 2.7rem; height: 2.7rem; place-items: center; border: 1px solid #e8e8e3; border-radius: 50%; background: rgb(255 255 255 / 88%); color: #45677a; font-size: 2rem; line-height: 1; box-shadow: 0 5px 14px rgb(55 76 88 / 8%); cursor: pointer; }
+  .books-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+  .books-heading h2 { margin: .25rem 0 0; color: #35546a; font-size: clamp(1.7rem, 3vw, 2.25rem); font-weight: 1000; letter-spacing: -.04em; }
+  .show-all { border: 1px solid #d9e5df; border-radius: 999px; padding: .6rem 1rem; background: #fff; color: #55796d; font-size: .8rem; font-weight: 900; cursor: pointer; }
+  .results-status { margin: .5rem 0 1rem; color: #99939a; font-size: .78rem; }
+  .showcase-books { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; }
+  .showcase-book[hidden] { display: none; }
+  .showcase-book :global(.book-card) { height: 100%; border-radius: 1.35rem; }
+  .showcase-book :global(.book-card-media) { aspect-ratio: 1 / 1; padding: .8rem; }
+  .showcase-book :global(.book-card a) { height: 100%; }
+  .no-character-books { padding: 2rem 1rem; border: 1px dashed #d9e5df; border-radius: 1.5rem; background: rgb(255 255 255 / 72%); text-align: center; }
+  .no-character-books[hidden] { display: none; }
+  .no-character-books > span { font-size: 2rem; }
+  .no-character-books h3 { margin: .5rem 0; color: #35546a; font-size: 1.2rem; font-weight: 900; }
+  .no-character-books p { margin: 0; color: #7b7b82; font-size: .9rem; }
+  .no-character-books button { margin-top: 1rem; border: 0; border-radius: 999px; padding: .65rem 1.1rem; background: #d9eee5; color: #426b5a; font-weight: 900; cursor: pointer; }
+  .showcase-decor { position: absolute; color: #d7c5e9; opacity: .7; pointer-events: none; }
+  .decor-star { top: 3rem; left: 12%; font-size: 3rem; transform: rotate(-12deg); }
+  .decor-leaf { right: 10%; top: 43%; color: #91bea0; font-size: 5rem; transform: rotate(25deg); }
+  @media (max-width: 850px) { .showcase-books { grid-template-columns: repeat(2, minmax(0, 1fr)); } .character-track { grid-auto-columns: minmax(125px, 1fr); } }
+  @media (max-width: 520px) { .showcase-inner { width: min(100% - 1.5rem, 1120px); } .character-carousel { grid-template-columns: 2rem minmax(0,1fr) 2rem; gap: .25rem; margin: 1.5rem auto 2.5rem; } .carousel-arrow { width: 2rem; height: 2rem; font-size: 1.5rem; } .character-track { grid-auto-columns: 118px; gap: .45rem; } .character-art { width: 112px; } .character-subtitle { display: none; } .showcase-books { gap: .7rem; } .showcase-book :global(.book-card-media) { padding: .55rem; } .showcase-book :global(.book-card a > div:last-child) { padding: .85rem; } .showcase-book :global(.book-card h2) { font-size: .9rem; } .showcase-book :global(.book-card p) { font-size: .75rem; line-height: 1.45; } .books-heading { align-items: center; } }
+  @media (prefers-reduced-motion: reduce) { .character-option, .character-art { transition: none; } }
+</style>
