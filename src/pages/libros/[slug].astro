@@ -15,11 +15,23 @@ const coverUrl = `${base}${book.data.cover.slice(1)}`;
 const pdfUrl = book.data.pdf
   ? `${base}${book.data.pdf.slice(1)}`
   : undefined;
+const bookStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": book.data.title,
+  "description": book.data.description,
+  "image": new URL(coverUrl, Astro.site).href,
+  "inLanguage": "es",
+  "numberOfPages": book.data.pages,
+  "genre": "Libro infantil para colorear",
+  "audience": { "@type": "PeopleAudience", "suggestedMinAge": Number(book.data.age.split("-")[0]), "suggestedMaxAge": Number(book.data.age.split("-")[1] ?? book.data.age) }
+};
 ---
-<BaseLayout title={book.data.title} description={book.data.description}>
+<BaseLayout title={book.data.title} description={book.data.description} ogImage={book.data.cover} type="article">
   <Header />
+  <script type="application/ld+json" set:html={JSON.stringify(bookStructuredData)} />
   <main class="container-page min-h-[65vh] py-12">
-    <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#16834a] hover:underline" href={`${base}libros/`}>← Volver a los libros</a>
+    <nav class="mb-5 text-sm font-bold text-muted" aria-label="Migas de pan"><a class="text-link" href={`${base}libros/`}>Libros</a><span aria-hidden="true"> / </span><span aria-current="page">{book.data.title}</span></nav>
     <article class="mt-7 grid items-start gap-9 md:grid-cols-[.9fr_1.1fr]">
       <div class="rounded-[2rem] bg-[#e8f5ed] p-5">
         <img src={coverUrl} alt={`Portada: ${book.data.title}`} class="w-full rounded-2xl bg-white shadow-lg" />
