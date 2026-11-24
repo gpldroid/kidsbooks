@@ -11,6 +11,10 @@ export async function getStaticPaths() {
 
 const { book } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const coverUrl = `${base}${book.data.cover.replace(/^\/+/, "")}`;
+const pdfUrl = book.data.pdf
+  ? `${base}${book.data.pdf.replace(/^\/+/, "")}`
+  : undefined;
 ---
 <BaseLayout title={book.data.title} description={book.data.description}>
   <SiteHeader />
@@ -18,7 +22,7 @@ const base = import.meta.env.BASE_URL;
     <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>← Volver a la biblioteca</a>
     <article class="mt-7 grid items-start gap-9 md:grid-cols-[.9fr_1.1fr]">
       <div class="rounded-[2rem] bg-[#e9ddff] p-5">
-        <img src={book.data.cover} alt={`Portada: ${book.data.title}`} class="w-full rounded-2xl bg-white shadow-lg" />
+        <img src={coverUrl} alt={`Portada: ${book.data.title}`} class="w-full rounded-2xl bg-white shadow-lg" />
       </div>
       <div class="pt-2">
         <div class="flex flex-wrap gap-2 text-xs font-extrabold">
@@ -31,8 +35,8 @@ const base = import.meta.env.BASE_URL;
           <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#938b9d]">Edad recomendada</dt><dd class="mt-1 font-black text-ink">{book.data.age} años</dd></div>
           <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#938b9d]">Páginas</dt><dd class="mt-1 font-black text-ink">{book.data.pages}</dd></div>
         </dl>
-        {book.data.pdf ? (
-          <a class="focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#8f78bd] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#8f78bd]/20 hover:bg-[#7860a7]" href={`${base.replace(/\/$/, "")}${book.data.pdf}`} download>Descargar libro gratis ↓</a>
+        {pdfUrl ? (
+          <a class="focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#8f78bd] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#8f78bd]/20 hover:bg-[#7860a7]" href={pdfUrl} download>Descargar libro gratis ↓</a>
         ) : (
           <p class="mt-8 rounded-2xl bg-[#fff1b8] p-4 text-sm font-bold text-[#75612a]">El PDF estará disponible próximamente.</p>
         )}
