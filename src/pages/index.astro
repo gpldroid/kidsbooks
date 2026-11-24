@@ -1,0 +1,82 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SiteHeader from "@components/SiteHeader.astro";
+import SiteFooter from "@components/SiteFooter.astro";
+import BookCard from "@components/BookCard.astro";
+
+const books = (await getCollection("books", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const featured = books.filter((book) => book.data.featured);
+const shownBooks = featured.length > 0 ? featured : books;
+const base = import.meta.env.BASE_URL;
+---
+<BaseLayout title="Libros para colorear gratis" description="Descubre libros infantiles gratuitos para colorear, imprimir y disfrutar en familia.">
+  <SiteHeader />
+  <main>
+    <section class="overflow-hidden">
+      <div class="container-page grid items-center gap-10 py-16 md:grid-cols-[1.05fr_.95fr] md:py-24">
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full bg-[#d9f3e7] px-4 py-2 text-xs font-black uppercase tracking-wider text-[#47765f]">Pequeños artistas, grandes ideas</span>
+          <h1 class="mt-6 max-w-xl text-5xl leading-[1.08] font-black tracking-tight text-ink sm:text-6xl">Un mundo de color para <span class="text-[#987fc8]">imaginar</span>.</h1>
+          <p class="mt-6 max-w-lg text-lg leading-8 text-[#777184]">Libros para colorear gratuitos, divertidos y fáciles de imprimir. Descubre animales, naturaleza y aventuras para crear sin límites.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a class="focus-ring rounded-full bg-[#8f78bd] px-7 py-3.5 font-extrabold text-white shadow-lg shadow-[#8f78bd]/20 transition hover:bg-[#7860a7]" href={`${base}libros/`}>Explorar libros <span aria-hidden="true">→</span></a>
+            <a class="focus-ring rounded-full border border-[#e5dce9] bg-white px-7 py-3.5 font-extrabold text-ink hover:bg-[#faf6ff]" href="#como-funciona">Cómo funciona</a>
+          </div>
+          <p class="mt-5 text-xs font-bold text-[#938b9d]">100 % gratis · Descarga e imprime · Para disfrutar en familia</p>
+        </div>
+        <div class="relative mx-auto w-full max-w-lg">
+          <div class="absolute -top-5 right-5 size-20 rounded-full bg-[#fff1b8] blur-[1px]"></div>
+          <div class="absolute -bottom-5 -left-4 size-24 rounded-full bg-[#d9f3e7]"></div>
+          <img src={`${base}images/hero-coloring.svg`} alt="Ilustración de lápices de colores y dibujos infantiles" class="relative w-full drop-shadow-xl" />
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white/65 py-16">
+      <div class="container-page">
+        <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">La biblioteca</p>
+            <h2 class="mt-2 text-3xl font-black text-ink">Libros para descubrir</h2>
+          </div>
+          <a class="font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>Ver todos <span aria-hidden="true">→</span></a>
+        </div>
+        {shownBooks.length > 0 ? (
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {shownBooks.slice(0, 6).map((book) => <BookCard book={book} />)}
+          </div>
+        ) : (
+          <div class="rounded-[2rem] border border-dashed border-[#d9cce9] bg-[#f8f3ff] px-6 py-14 text-center">
+            <span class="text-4xl" aria-hidden="true">🖍️</span>
+            <h3 class="mt-4 text-xl font-black text-ink">¡Muy pronto habrá nuevos libros!</h3>
+            <p class="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#777184]">Estamos preparando páginas para colorear. Vuelve pronto para descubrir la primera colección.</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section id="como-funciona" class="container-page py-16">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">Fácil y divertido</p>
+        <h2 class="mt-2 text-3xl font-black text-ink">¿Cómo funciona?</h2>
+        <p class="mt-3 text-[#777184]">Tres pasos sencillos para convertir una tarde cualquiera en una aventura creativa.</p>
+      </div>
+      <div class="mt-9 grid gap-5 md:grid-cols-3">
+        {[
+          { icon: "📚", title: "Elige tu libro", text: "Explora las colecciones y encuentra tu tema favorito.", color: "bg-[#e9ddff]" },
+          { icon: "⬇️", title: "Descárgalo gratis", text: "Abre la ficha del libro y descarga el PDF cuando esté disponible.", color: "bg-[#dceeff]" },
+          { icon: "🖍️", title: "¡A colorear!", text: "Imprime las páginas, prepara tus lápices y deja volar tu imaginación.", color: "bg-[#d9f3e7]" }
+        ].map((step) => (
+          <article class="rounded-[1.7rem] border border-[#eee7df] bg-white p-7 text-center soft-shadow">
+            <div class:list={["mx-auto grid size-16 place-items-center rounded-3xl text-3xl", step.color]}>{step.icon}</div>
+            <h3 class="mt-5 text-lg font-black text-ink">{step.title}</h3>
+            <p class="mt-2 text-sm leading-6 text-[#777184]">{step.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
