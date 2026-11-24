@@ -62,6 +62,20 @@ test("verifica el número real de páginas del PDF", async () => {
   }
 });
 
+test("rechaza páginas que no sean A4 vertical", async () => {
+  const directory = await fs.promises.mkdtemp(path.join(os.tmpdir(), "kidsbooks-size-"));
+  const pdfPath = path.join(directory, "letter.pdf");
+  try {
+    const pdf = await PDFDocument.create();
+    pdf.addPage([612, 792]);
+    await fs.promises.writeFile(pdfPath, await pdf.save());
+    const errors = await validatePdfPageCount(pdfPath, 1);
+    assert.ok(errors.some((error) => error.includes("no es A4 vertical")));
+  } finally {
+    await fs.promises.rm(directory, { recursive: true, force: true });
+  }
+});
+
 test("detecta PDF corrupto o ilegible", async () => {
   const directory = await fs.promises.mkdtemp(path.join(os.tmpdir(), "kidsbooks-invalid-pdf-"));
   const pdfPath = path.join(directory, "broken.pdf");
