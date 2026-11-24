@@ -4,20 +4,26 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import Header from "@components/Header.astro";
 import SiteFooter from "@components/SiteFooter.astro";
 import BookCard from "@components/BookCard.astro";
+import { slugify } from "@utils/taxonomy";
+
 export async function getStaticPaths() {
-  const slugify = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const books = await getCollection("books", ({ data }) => !data.draft);
   const categories = [...new Set(books.map((book) => book.data.category))];
-  return categories.map((category) => ({ params: { category: slugify(category) }, props: { category, books: books.filter((book) => book.data.category === category) } }));
+  return categories.map((category) => ({
+    params: { category: slugify(category) },
+    props: { category, books: books.filter((book) => book.data.category === category) }
+  }));
 }
 const { category, books } = Astro.props;
+const keywords = [...new Set(books.flatMap((book) => book.data.keywords))].slice(0, 12);
 ---
-<BaseLayout title={`Libros para colorear de ${category}`} description={`Descubre libros infantiles gratuitos para colorear de la categoría ${category}. Consulta las fichas y descarga los PDF disponibles.`}>
+<BaseLayout title={`Libros para colorear de ${category}`} description={`Descubre libros infantiles gratuitos para colorear de ${category}. Explora títulos, edades recomendadas y descarga los PDF para imprimir.`} keywords={[category, `libros para colorear de ${category}`, `dibujos de ${category} para niños`, ...keywords]}>
   <Header />
   <main class="container-page page-shell">
-    <nav class="mb-6 text-sm font-bold text-muted" aria-label="Migas de pan"><a class="text-link" href={`${import.meta.env.BASE_URL}categorias/`}>Categorías</a><span aria-hidden="true"> / </span><span aria-current="page">{category}</span></nav>
-    <header class="page-heading"><p class="page-eyebrow">Colección temática</p><h1>Libros de {category}</h1><p>Explora los libros para colorear disponibles en esta categoría.</p></header>
+    <nav class="mb-6 text-sm font-bold text-muted" aria-label="Migas de pan"><a class="text-link" href={import.meta.env.BASE_URL}>Inicio</a><span aria-hidden="true"> / </span><a class="text-link" href={`${import.meta.env.BASE_URL}categorias/`}>Categorías</a><span aria-hidden="true"> / </span><span aria-current="page">{category}</span></nav>
+    <header class="page-heading"><p class="page-eyebrow">Colección temática</p><h1>Libros para colorear de {category}</h1><p>Explora {books.length} {books.length === 1 ? "libro infantil" : "libros infantiles"} de {category.toLocaleLowerCase("es")} para descargar e imprimir.</p></header>
     <div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">{books.map((book) => <BookCard book={book} />)}</div>
+    <nav class="mt-10 flex flex-wrap gap-4 text-sm font-bold" aria-label="Más navegación"><a class="text-link" href={`${import.meta.env.BASE_URL}libros/`}>Ver todos los libros</a><a class="text-link" href={`${import.meta.env.BASE_URL}categorias/`}>Todas las categorías</a></nav>
   </main>
   <SiteFooter />
 </BaseLayout>
