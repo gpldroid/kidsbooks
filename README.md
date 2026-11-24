@@ -133,6 +133,7 @@ Guía detallada: [docs/DEPLOY-GITHUB-PAGES.md](docs/DEPLOY-GITHUB-PAGES.md).
 
 ## Documentación
 
+- [Arquitectura SEO, taxonomía y enlazado interno](docs/ARQUITECTURA-SEO-Y-ENLAZADO-INTERNO.md)
 - [Estándar editorial y técnico de libros](docs/ESTANDAR-PRODUCCION-LIBROS.md)
 - [Flujo de producción de libros](docs/PRODUCCION-DE-LIBROS.md)
 - [Brief de producción](templates/book-production-brief.md)
