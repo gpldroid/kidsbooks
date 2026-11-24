@@ -1,0 +1,54 @@
+<section class="hero-spotlight" aria-labelledby="hero-title">
+  <span class="hero-star star-one" aria-hidden="true">✦</span>
+  <span class="hero-star star-two" aria-hidden="true">✧</span>
+  <span class="hero-leaf leaf-one" aria-hidden="true">❧</span>
+  <div class="hero-content">
+    <p class="hero-kicker"><span aria-hidden="true">✿</span> Un universo para imaginar</p>
+    <h1 id="hero-title">Pequeñas aventuras,<br /><span>grandes colores</span></h1>
+    <p class="hero-description">Descubre historias, personajes y libros para colorear. ¡Elige tu aventura favorita y deja volar tu creatividad!</p>
+    <div class="hero-actions">
+      <a class="hero-primary" href="#categorias">Explorar personajes <span aria-hidden="true">↓</span></a>
+      <a class="hero-secondary" href="#descargas">Cómo descargar</a>
+    </div>
+    <div class="hero-note"><span aria-hidden="true">🌈</span> Libros gratuitos para pequeños artistas</div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="hero-orbit orbit-back"></div>
+    <div class="hero-orbit orbit-front"></div>
+    <div class="hero-sun">☀</div>
+    <div class="hero-cloud cloud-left">☁</div>
+    <div class="hero-cloud cloud-right">☁</div>
+    <div class="hero-rainbow">🌈</div>
+    <div class="hero-book-stack"><span>📗</span><span>📘</span><span>📙</span></div>
+    <span class="hero-sparkle sparkle-a">✦</span><span class="hero-sparkle sparkle-b">✧</span>
+  </div>
+</section>
+<style>
+  .hero-spotlight { position:relative; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:2rem; overflow:hidden; width:min(1120px,calc(100% - 2.5rem)); min-height:390px; margin:2rem auto 3.5rem; padding:clamp(2rem,5vw,4rem); border:1px solid #e9e7df; border-radius:2.25rem; background:linear-gradient(115deg,#fffaf0 0%,#f5fbf7 55%,#eef6fc 100%); }
+  .hero-content { position:relative; z-index:2; max-width:540px; }
+  .hero-kicker { display:inline-flex; align-items:center; gap:.5rem; margin:0 0 1rem; color:#8a78ad; font-size:.75rem; font-weight:950; letter-spacing:.12em; text-transform:uppercase; }
+  .hero-content h1 { margin:0; color:#34566c; font-size:clamp(2.5rem,5vw,4.35rem); font-weight:1000; letter-spacing:-.065em; line-height:1.03; }
+  .hero-content h1 span { color:#78a99d; }
+  .hero-description { max-width:440px; margin:1.2rem 0 0; color:#727c80; font-size:1rem; line-height:1.8; }
+  .hero-actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.65rem; }
+  .hero-primary,.hero-secondary { display:inline-flex; align-items:center; gap:.65rem; border-radius:999px; padding:.85rem 1.25rem; font-size:.86rem; font-weight:950; text-decoration:none; transition:transform .18s ease,box-shadow .18s ease; }
+  .hero-primary { background:#6fa99d; color:white; box-shadow:0 8px 18px #6fa99d38; }
+  .hero-secondary { border:1px solid #dce8df; background:#fff; color:#4c6d68; }
+  .hero-primary:hover,.hero-secondary:hover { transform:translateY(-2px); }
+  .hero-note { display:flex; align-items:center; gap:.55rem; margin-top:1.4rem; color:#9a9690; font-size:.78rem; font-weight:750; }
+  .hero-art { position:relative; min-height:285px; }
+  .hero-orbit { position:absolute; left:50%; top:50%; aspect-ratio:1; border-radius:50%; transform:translate(-50%,-50%); }
+  .orbit-back { width:min(100%,300px); background:#e5d8f0; }
+  .orbit-front { width:min(78%,235px); background:#cce8df; border:10px solid #ffffff80; }
+  .hero-sun { position:absolute; top:2%; right:14%; color:#efc96e; font-size:3.8rem; transform:rotate(12deg); }
+  .hero-cloud { position:absolute; z-index:2; color:#fff; font-size:4rem; text-shadow:0 4px 0 #d9e9e5; }
+  .cloud-left { left:3%; top:25%; }.cloud-right { right:0; bottom:12%; font-size:3.2rem; }
+  .hero-rainbow { position:absolute; z-index:3; left:50%; top:42%; font-size:5.6rem; transform:translate(-50%,-50%) rotate(-8deg); filter:drop-shadow(0 9px 6px #617c6a22); }
+  .hero-book-stack { position:absolute; z-index:4; left:50%; bottom:0; display:flex; align-items:end; gap:.3rem; transform:translateX(-50%) rotate(-3deg); }
+  .hero-book-stack span { display:grid; width:4.5rem; height:5.5rem; place-items:center; border:4px solid #fff; border-radius:.8rem; background:#f5d99b; font-size:2.2rem; box-shadow:0 8px 15px #40576a24; }
+  .hero-book-stack span:nth-child(2) { height:6.3rem; background:#b9ded3; }.hero-book-stack span:nth-child(3) { background:#d8c9ed; }
+  .hero-sparkle { position:absolute; color:#e5bb72; font-size:2rem; }.sparkle-a { left:15%; top:8%; }.sparkle-b { right:14%; bottom:10%; color:#c99bb9; }
+  .hero-star,.hero-leaf { position:absolute; color:#d6c2e6; pointer-events:none; }.star-one { left:4%; top:12%; font-size:2.5rem; }.star-two { right:42%; bottom:8%; font-size:2rem; }.leaf-one { right:4%; top:12%; color:#9fc3a8; font-size:4rem; transform:rotate(25deg); }
+  @media(max-width:760px) { .hero-spotlight { grid-template-columns:1fr; gap:.5rem; min-height:0; margin:1rem auto 2.5rem; padding:2rem 1.4rem 1rem; text-align:center; } .hero-content { margin:auto; }.hero-description { margin-inline:auto; }.hero-actions,.hero-note { justify-content:center; }.hero-art { min-height:245px; }.orbit-back { width:235px; }.orbit-front { width:185px; }.hero-rainbow { font-size:4.6rem; }.hero-book-stack span { width:3.8rem; height:4.6rem; }.hero-book-stack span:nth-child(2) { height:5.2rem; } }
+  @media(prefers-reduced-motion:reduce) { .hero-primary,.hero-secondary { transition:none; } }
+</style>
