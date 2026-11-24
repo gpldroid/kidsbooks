@@ -1,16 +1,31 @@
 ---
 const base = import.meta.env.BASE_URL;
 ---
-<header class="sticky top-0 z-30 border-b border-[#eee7df] bg-[#fffaf3]/90 backdrop-blur">
-  <div class="container-page flex h-18 items-center justify-between gap-4">
-    <a class="focus-ring flex items-center gap-2 rounded-xl" href={base} aria-label="kids books, inicio">
-      <span class="grid size-10 place-items-center rounded-2xl bg-[#e9ddff] text-xl" aria-hidden="true">✿</span>
-      <span class="text-xl font-black tracking-tight text-ink">kids books<span class="text-[#a18bd2]">.</span></span>
+<header class="site-header sticky top-0 z-40">
+  <div class="container-page flex h-[4.75rem] items-center justify-between gap-4">
+    <a class="brand-link focus-ring" href={base} aria-label="kids books, inicio">
+      <span class="brand-mark" aria-hidden="true">✿</span>
+      <span class="brand-name">kids books<span>.</span></span>
     </a>
-    <nav aria-label="Navegación principal" class="flex items-center gap-5 text-sm font-bold text-[#625d70]">
-      <a class="focus-ring rounded-lg hover:text-[#8a70c1]" href={base}>Inicio</a>
-      <a class="focus-ring rounded-lg hover:text-[#8a70c1]" href={`${base}libros/`}>Libros</a>
-      <a class="focus-ring rounded-lg hover:text-[#8a70c1]" href={`${base}#como-funciona`}>Cómo funciona</a>
+    <nav aria-label="Navegación principal" class="desktop-nav">
+      <a class="nav-link" href={base}>Inicio</a>
+      <a class="nav-link" href={`${base}libros/`}>Biblioteca</a>
+      <a class="nav-link" href={`${base}#como-funciona`}>Cómo funciona</a>
     </nav>
+    <a class="header-cta focus-ring" href={`${base}libros/`}>Explorar libros <span aria-hidden="true">↗</span></a>
   </div>
 </header>
+<nav class="mobile-tabbar" aria-label="Navegación móvil">
+  <a class="tab-item" href={base} aria-label="Inicio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></svg>
+    <span>Inicio</span>
+  </a>
+  <a class="tab-item" href={`${base}libros/`} aria-label="Biblioteca">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 4.5v17M8 6h8M8 10h8"/></svg>
+    <span>Libros</span>
+  </a>
+  <a class="tab-item" href={`${base}#como-funciona`} aria-label="Cómo funciona">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3M12 17.2v.1"/></svg>
+    <span>Guía</span>
+  </a>
+</nav>
