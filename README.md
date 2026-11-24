@@ -10,7 +10,9 @@ Biblioteca gratuita de libros infantiles para colorear, descargar e imprimir. Si
 - Páginas de inicio, catálogo y ficha individual de cada libro.
 - Gestión de libros mediante archivos Markdown y validación con Zod.
 - Imágenes y PDF servidos desde `public/`.
-- Diseño responsive, accesible y con paleta pastel.
+- Diseño responsive con navegación inferior móvil, controles de desplazamiento, iconografía SVG accesible y paleta pastel.
+- Sistema visual centralizado: tipografía Nunito, tokens CSS, tarjetas con profundidad 2D/3D y microinteracciones.
+- Enlaces de compartir mediante WhatsApp, Facebook y Pinterest.
 - Sitemap XML y robots.txt.
 - Pruebas automatizadas con Node.js.
 - GitHub Actions ejecuta validación, pruebas, comprobación TypeScript/Astro, build y despliegue.
@@ -32,6 +34,18 @@ npm run dev
 ```
 
 Abre la URL local que muestra Astro, normalmente `http://localhost:4321/kidsbooks/`.
+
+## Diseño y personalización
+
+La identidad visual está centralizada en `src/styles/global.css`: modifica allí los colores, tipografía, sombras, radios, navegación, tarjetas y puntos de ruptura. Los componentes reutilizables están en `src/components/`:
+
+- `SiteHeader.astro`: marca, navegación de escritorio y barra inferior móvil.
+- `SiteFooter.astro`: pie de página y enlaces para compartir.
+- `BookCard.astro`: tarjeta reutilizable de cada libro.
+- `ScrollControls.astro`: botones accesibles para ir al inicio y al final.
+- `BaseLayout.astro`: metadatos, estilos globales y estructura común.
+
+Los efectos de profundidad usan CSS `perspective`, `transform`, gradientes y sombras; no requieren JavaScript ni librerías de animación. Se respeta `prefers-reduced-motion` para usuarios que reducen movimiento. Los iconos son SVG inline para mantener la web ligera y evitar dependencias externas.
 
 ## Comandos disponibles
 
