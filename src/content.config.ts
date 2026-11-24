@@ -10,6 +10,7 @@ const books = defineCollection({
     age: z.string().min(1).max(20),
     pages: z.number().int().positive().max(200),
     category: z.string().min(2).max(40),
+    characters: z.array(z.enum(["fruits", "animals", "princesses", "heroes"])).default([]),
     cover: z.string().startsWith("/"),
     pdf: z.string().startsWith("/").optional(),
     featured: z.boolean().default(false),
