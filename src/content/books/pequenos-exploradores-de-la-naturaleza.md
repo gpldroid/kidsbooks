@@ -1,19 +1,23 @@
 ---
 title: "Pequeños Exploradores de la Naturaleza"
 slug: "pequenos-exploradores-de-la-naturaleza"
-description: "Un proyecto en preparación para descubrir bosques, praderas, ríos y océanos mediante ilustraciones originales para colorear."
+description: "Libro infantil para colorear sobre animales, plantas, bosques, montañas y océanos, con 25 dibujos y páginas protectoras."
 age: "4-8"
 pages: 53
 category: "Naturaleza"
-characters: []
+characters:
+  - "Naturaleza"
 cover: "/images/covers/pequenos-exploradores-de-la-naturaleza.svg"
+pdf: "/books/pequenos-exploradores-de-la-naturaleza.pdf"
 featured: false
-draft: true
+draft: false
 publishedAt: "2026-11-24"
 ---
 
-Proyecto editorial en fase de producción. El brief está aprobado y contempla 25 ilustraciones originales para colorear, una bienvenida en español y páginas protectoras en blanco.
+¡Bienvenidos, pequeños exploradores! Descubre la naturaleza mediante 25 ilustraciones para colorear. El libro incluye una bienvenida en español y una página blanca de protección después de cada dibujo, en un total de 53 páginas A4 verticales.
 
-**Edad prevista:** 4–8 años.
+**Edad recomendada:** 4–8 años.
 
-**Estado:** borrador no publicado. Las ilustraciones interiores, el PDF final y la revisión integral de calidad siguen pendientes. El libro no debe considerarse disponible para descarga hasta completar el proceso editorial y técnico establecido en `docs/ESTANDAR-PRODUCCION-LIBROS.md`.
+**Formato:** PDF A4 vertical, 53 páginas.
+
+**Contenido:** portada, bienvenida, 25 dibujos para colorear, 25 páginas protectoras completamente blancas y contraportada.
