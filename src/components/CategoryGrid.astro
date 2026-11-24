@@ -59,13 +59,13 @@ const categories = [
   </div>
 </section>
 <script>
-  const categoryButtons = Array.from(document.querySelectorAll("[data-character-filter]"));
-  const ageButtons = Array.from(document.querySelectorAll("[data-age-filter]"));
-  const bookCards = Array.from(document.querySelectorAll("[data-book-card]"));
-  const resultStatus = document.querySelector("[data-results-status]");
-  const resultTitle = document.querySelector("[data-results-title]");
-  const emptyState = document.querySelector("[data-empty-state]");
-  const resetButtons = Array.from(document.querySelectorAll("[data-reset-filters]"));
+  const categoryButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-character-filter]"));
+  const ageButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-age-filter]"));
+  const bookCards = Array.from(document.querySelectorAll<HTMLElement>("[data-book-card]"));
+  const resultStatus = document.querySelector<HTMLElement>("[data-results-status]");
+  const resultTitle = document.querySelector<HTMLElement>("[data-results-title]");
+  const emptyState = document.querySelector<HTMLElement>("[data-empty-state]");
+  const resetButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-reset-filters]"));
   let activeCharacter = null;
   let activeAge = "all";
   const categoryNames = new Map(categoryButtons.map((button) => [button.dataset.characterFilter, button.querySelector("strong")?.textContent ?? ""]));
