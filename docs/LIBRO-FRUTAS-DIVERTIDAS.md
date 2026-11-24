@@ -114,7 +114,7 @@ description: "Libro infantil para colorear con 25 dibujos sencillos de frutas y 
 age: "3-6"
 pages: 53
 category: "Frutas"
-cover: "/images/covers/frutas-divertidas-y-felices.webp"
+cover: "/images/covers/frutas-divertidas-y-felices.svg"
 pdf: "/books/frutas-divertidas-y-felices.pdf"
 featured: false
 draft: true
