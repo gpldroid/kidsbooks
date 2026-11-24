@@ -1,11 +1,11 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SiteHeader from "@components/SiteHeader.astro";
+import Header from "@components/Header.astro";
 import SiteFooter from "@components/SiteFooter.astro";
 const base = import.meta.env.BASE_URL;
 ---
 <BaseLayout title="Página no encontrada" description="La página que buscas no está disponible.">
-  <SiteHeader />
+  <Header />
   <main class="container-page grid min-h-[65vh] place-items-center py-16 text-center">
     <div class="max-w-lg">
       <div class="mx-auto grid size-24 place-items-center rounded-[2rem] bg-[#e9ddff] text-5xl" aria-hidden="true">🖍️</div>
