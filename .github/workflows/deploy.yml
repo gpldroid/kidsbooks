@@ -22,8 +22,6 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Generate nature coloring book PDF
-        run: npm run generate:nature-book
       - name: Validate book content
         run: npm run validate
       - name: Run tests
