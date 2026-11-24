@@ -43,7 +43,7 @@ Abre la URL local que muestra Astro, normalmente `http://localhost:4321/kidsbook
 | `npm run build` | Generar sitio estático en `dist/` |
 | `npm run preview` | Previsualizar el build |
 | `npm run check` | Revisar Astro y TypeScript |
-| `npm run validate` | Validar metadatos y archivos de libros |
+| `npm run validate` | Validar metadatos, archivos, rutas seguras, recuento de páginas y tamaño A4 vertical de cada PDF |
 | `npm test` | Ejecutar pruebas automatizadas |
 
 Antes de publicar, ejecuta:
@@ -73,7 +73,7 @@ La identidad visual está centralizada en `src/styles/global.css`. Los component
 4. Maqueta y exporta siguiendo la [Guía de Canva](docs/GUIA-CANVA.md).
 5. Guarda la portada en `public/images/covers/` y el PDF final en `public/books/`.
 6. Copia `templates/book-template.md` a `src/content/books/<slug>.md` y completa el frontmatter.
-7. Mantén `draft: false` mientras falte cualquier archivo o revisión. Cambia a `draft: false` solo cuando PDF y portada estén dentro de `public/` y la validación pase.
+7. Mantén `draft: true` mientras falte cualquier archivo o revisión. Cambia a `draft: false` solo cuando PDF y portada estén dentro de `public/` y la validación pase.
 8. Ejecuta las comprobaciones y revisa el resultado local antes de publicar.
 
 La colección actual usa este esquema en `src/content.config.ts`:
@@ -110,7 +110,7 @@ publishedAt: "2026-11-24"
 ---
 ```
 
-No añadas campos como `tags` o `ageRange` al frontmatter hasta ampliar también el schema de `src/content.config.ts`. El ejemplo anterior es compatible con el esquema actual; cambia a `draft: false` únicamente cuando los dos archivos existan y estén revisados.
+No añadas campos como `tags` o `ageRange` al frontmatter hasta ampliar también el schema de `src/content.config.ts`. Mantén `draft: true` durante la preparación y cambia a `draft: false` únicamente cuando los dos archivos existan y estén revisados.
 
 ## Libro de referencia: Frutas Divertidas y Felices
 
@@ -119,7 +119,7 @@ Se ha producido una primera edición de **53 páginas A4 verticales**:
 - Portada a color, página de bienvenida en español, 25 ilustraciones de frutas en blanco y negro, 25 páginas completamente blancas alternadas después de cada ilustración y contraportada.
 - PDF exportado y revisado: 53 páginas; las páginas 4, 6, 8, ..., 52 son páginas blancas; todas las páginas tienen proporción A4 vertical.
 - Diseño importado en Canva: [Abrir Frutas Divertidas y Felices](https://www.canva.com/d/wHkroUzXgGc6CTJ).
-- La ficha Markdown y una portada SVG ya están integradas en Content Collections y `public/images/covers/`, pero el libro permanece en `draft: false`. El PDF maestro verificado (53 páginas) aún se conserva fuera del repositorio y no está en `public/books/`; por eso el título no aparece en el catálogo ni se ofrece una descarga falsa. El validador ahora compara la cantidad de páginas declarada con la cantidad real del PDF usando `pdf-lib`. Sigue `docs/LIBRO-FRUTAS-DIVERTIDAS.md` para completar la publicación cuando el PDF se incorpore al repositorio.
+- El PDF de 53 páginas, la portada SVG y la ficha Astro están integrados en el repositorio. La ficha está publicada con `draft: false` y `featured: true`. El validador comprueba que el PDF se pueda leer, que su número real de páginas coincida con `pages` y que todas las páginas tengan dimensiones A4 verticales. Consulta `docs/LIBRO-FRUTAS-DIVERTIDAS.md` para el registro editorial.
 
 ## Publicación en GitHub Pages
 
