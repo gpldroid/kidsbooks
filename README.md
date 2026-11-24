@@ -7,7 +7,7 @@ Biblioteca estática y gratuita de libros infantiles para colorear, descargar e 
 ## Funcionalidades
 
 - Inicio con presentación de personajes, categorías y filtros por edad.
-- Catálogo público y páginas estáticas individuales para cada libro publicado.
+- Catálogo público, páginas estáticas de categorías y fichas individuales de cada libro publicado.\n- Taxonomía centralizada, breadcrumbs y enlaces entre categorías, libros y títulos relacionados.\n- Palabras clave y frases de búsqueda en metadatos, búsqueda del catálogo y datos estructurados.
 - Contenido administrado mediante Markdown y validado con Zod.
 - Portadas SVG y archivos PDF servidos desde public/.
 - Navegación compartida: menú de escritorio y barra inferior móvil.
@@ -105,7 +105,8 @@ El esquema de contenido está definido en src/content.config.ts:
 | description | Texto, 20–220 caracteres |
 | age | Rango en texto, por ejemplo 3-6 |
 | pages | Entero positivo, máximo 200 |
-| category | Texto, 2–40 caracteres |
+| category | Texto, 2–40 caracteres; genera la ruta de categoría |
+| keywords | Lista opcional de frases de búsqueda específicas, sin duplicados |
 | characters | Lista opcional: fruits, animals, princesses, heroes |
 | cover | Ruta local que empieza por / |
 | pdf | Ruta local opcional en borradores; obligatoria en libros publicados |
