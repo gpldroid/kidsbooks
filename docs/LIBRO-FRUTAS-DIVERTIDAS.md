@@ -92,7 +92,8 @@ Las páginas blancas protectoras son exactamente las páginas pares de la 4 a la
 | PDF dentro de `public/books/` | Pendiente: falta transferir el archivo binario al repositorio |
 | Portada independiente en `public/images/covers/` | Integrada: `frutas-divertidas-y-felices.svg` |
 | Ficha Markdown en `src/content/books/` | Integrada como `draft: true` |
-| Validador de número real de páginas PDF | Implementado con `pdf-lib`; prueba de unidad añadida |\n| Validación, build y publicación del libro | En curso mediante GitHub Actions; el libro sigue sin publicar hasta incorporar el PDF |
+| Validador de número real de páginas PDF | Implementado con `pdf-lib`; prueba de unidad añadida |
+| Validación, build y publicación del libro | En curso mediante GitHub Actions; el libro sigue sin publicar hasta incorporar el PDF |
 
 El PDF maestro de trabajo se generó fuera del repositorio y se verificó localmente con 53 páginas A4 verticales. La portada SVG y la ficha Astro ya están en el repositorio, pero la ficha permanece en `draft: true` porque el archivo PDF binario aún no se ha transferido a `public/books/`. El validador ahora abre cada PDF con `pdf-lib` y compara su número real de páginas con `pages` del frontmatter; también bloquea rutas que intenten salir de `public/`. La publicación queda bloqueada intencionalmente hasta que el PDF esté presente y la validación, las pruebas y el build pasen.
 
