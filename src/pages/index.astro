@@ -38,20 +38,20 @@ const base = import.meta.env.BASE_URL;
       <div class="container-page">
         <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">La biblioteca</p>
+            <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">Nuestra selección</p>
             <h2 class="mt-2 text-3xl font-black text-ink">Libros para descubrir</h2>
           </div>
-          <a class="font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>Ver todos <span aria-hidden="true">→</span></a>
+          <a class="font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>Ver colección <span aria-hidden="true">→</span></a>
         </div>
         {shownBooks.length > 0 ? (
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {shownBooks.slice(0, 6).map((book) => <BookCard book={book} />)}
           </div>
         ) : (
-          <div class="rounded-[2rem] border border-dashed border-[#d9cce9] bg-[#f8f3ff] px-6 py-14 text-center">
+          <div class="rounded-[2rem] border border-[#eee7df] bg-white px-6 py-12 text-center soft-shadow">
             <span class="text-4xl" aria-hidden="true">🖍️</span>
-            <h3 class="mt-4 text-xl font-black text-ink">¡Muy pronto habrá nuevos libros!</h3>
-            <p class="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#777184]">Estamos preparando páginas para colorear. Vuelve pronto para descubrir la primera colección.</p>
+            <h3 class="mt-4 text-xl font-black text-ink">No hay libros disponibles en este momento</h3>
+            <p class="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#777184]">Estamos ampliando nuestra selección. Gracias por acompañarnos.</p>
           </div>
         )}
       </div>
@@ -66,7 +66,7 @@ const base = import.meta.env.BASE_URL;
       <div class="mt-9 grid gap-5 md:grid-cols-3">
         {[
           { icon: "📚", title: "Elige tu libro", text: "Explora las colecciones y encuentra tu tema favorito.", color: "bg-[#e9ddff]" },
-          { icon: "⬇️", title: "Descárgalo gratis", text: "Abre la ficha del libro y descarga el PDF cuando esté disponible.", color: "bg-[#dceeff]" },
+          { icon: "⬇️", title: "Descárgalo gratis", text: "Abre la ficha del libro y descarga el PDF disponible.", color: "bg-[#dceeff]" },
           { icon: "🖍️", title: "¡A colorear!", text: "Imprime las páginas, prepara tus lápices y deja volar tu imaginación.", color: "bg-[#d9f3e7]" }
         ].map((step) => (
           <article class="rounded-[1.7rem] border border-[#eee7df] bg-white p-7 text-center soft-shadow">
