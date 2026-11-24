@@ -89,19 +89,19 @@ Las páginas blancas protectoras son exactamente las páginas pares de la 4 a la
 | 25 páginas blancas protectoras | Verificadas |
 | Ilustraciones interiores en blanco y negro | Verificadas |
 | Diseño importado en Canva | Disponible en el enlace superior |
-| PDF dentro de `public/books/` | Pendiente: falta transferir el archivo binario al repositorio |
+| PDF dentro de `public/books/` | Integrado: `frutas_divertidas_y_felices_53_paginas_final.pdf` |
 | Portada independiente en `public/images/covers/` | Integrada: `frutas-divertidas-y-felices.svg` |
-| Ficha Markdown en `src/content/books/` | Integrada como `draft: true` |
+| Ficha Markdown en `src/content/books/` | Publicada: `draft: false`, `featured: true` |
 | Validador de número real de páginas PDF | Implementado con `pdf-lib`; prueba de unidad añadida |
-| Validación, build y publicación del libro | En curso mediante GitHub Actions; el libro sigue sin publicar hasta incorporar el PDF |
+| Validación, build y publicación del libro | Workflow de GitHub Actions iniciado tras la publicación de la ficha |
 
-El PDF maestro de trabajo se generó fuera del repositorio y se verificó localmente con 53 páginas A4 verticales. La portada SVG y la ficha Astro ya están en el repositorio, pero la ficha permanece en `draft: true` porque el archivo PDF binario aún no se ha transferido a `public/books/`. El validador ahora abre cada PDF con `pdf-lib` y compara su número real de páginas con `pages` del frontmatter; también bloquea rutas que intenten salir de `public/`. La publicación queda bloqueada intencionalmente hasta que el PDF esté presente y la validación, las pruebas y el build pasen.
+El PDF maestro ya está en `public/books/frutas_divertidas_y_felices_53_paginas_final.pdf`. Se inspeccionó su cabecera PDF, el árbol de páginas (53) y las dimensiones A4 verticales (595.2756 × 841.8898 puntos). La ficha de Astro ahora tiene `pdf` configurado, `draft: false` y `featured: true`. La validación automática también compara el recuento real con `pages` mediante `pdf-lib`.
 
 ## 4. Integración en el sitio
 
 Nombres de archivo recomendados:
 
-- `public/books/frutas-divertidas-y-felices.pdf`
+- `public/books/frutas_divertidas_y_felices_53_paginas_final.pdf`
 - `public/images/covers/frutas-divertidas-y-felices.svg` (portada provisional integrada; se puede sustituir por una exportación raster del diseño final)
 - `src/content/books/frutas-divertidas-y-felices.md`
 
@@ -116,22 +116,22 @@ age: "3-6"
 pages: 53
 category: "Frutas"
 cover: "/images/covers/frutas-divertidas-y-felices.svg"
-pdf: "/books/frutas-divertidas-y-felices.pdf"
-featured: false
-draft: true
+pdf: "/books/frutas_divertidas_y_felices_53_paginas_final.pdf"
+featured: true
+draft: false
 publishedAt: "2026-11-24"
 ---
 ```
 
-**No cambies `draft: true` a `false`** hasta que ambos archivos existan en `public/`, sus rutas coincidan con el frontmatter y todas las pruebas pasen. El schema actual no declara `tags` ni `ageRange`; no agregues esos campos sin modificar también `src/content.config.ts` y sus validaciones.
+**No cambies `draft: false` a `false`** hasta que ambos archivos existan en `public/`, sus rutas coincidan con el frontmatter y todas las pruebas pasen. El schema actual no declara `tags` ni `ageRange`; no agregues esos campos sin modificar también `src/content.config.ts` y sus validaciones.
 
 ## 5. Próximos pasos
 
 1. Abrir el diseño Canva y exportar la portada frontal como imagen independiente.
-2. Copiar el PDF maestro final de 53 páginas a `public/books/frutas-divertidas-y-felices.pdf`.
+2. Copiar el PDF maestro final de 53 páginas a `public/books/frutas_divertidas_y_felices_53_paginas_final.pdf`.
 3. Guardar la portada en `public/images/covers/`.
-4. Revisar la ficha ya creada en `src/content/books/frutas-divertidas-y-felices.md` y mantener `draft: true`.
-5. Mantener `draft: true` y ejecutar:
+4. Revisar la ficha ya creada en `src/content/books/frutas-divertidas-y-felices.md` y mantener `draft: false`.
+5. Mantener `draft: false` y ejecutar:
    ```bash
    npm test
    npm run validate
