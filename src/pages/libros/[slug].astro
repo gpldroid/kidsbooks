@@ -19,26 +19,26 @@ const pdfUrl = book.data.pdf
 <BaseLayout title={book.data.title} description={book.data.description}>
   <Header />
   <main class="container-page min-h-[65vh] py-12">
-    <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>← Volver a los libros</a>
+    <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#16834a] hover:underline" href={`${base}libros/`}>← Volver a los libros</a>
     <article class="mt-7 grid items-start gap-9 md:grid-cols-[.9fr_1.1fr]">
-      <div class="rounded-[2rem] bg-[#e9ddff] p-5">
+      <div class="rounded-[2rem] bg-[#e8f5ed] p-5">
         <img src={coverUrl} alt={`Portada: ${book.data.title}`} class="w-full rounded-2xl bg-white shadow-lg" />
       </div>
       <div class="pt-2">
         <div class="flex flex-wrap gap-2 text-xs font-extrabold">
-          <span class="rounded-full bg-[#e9ddff] px-3 py-1.5 text-[#66518e]">{book.data.category}</span>
-          <span class="rounded-full bg-[#d9f3e7] px-3 py-1.5 text-[#47765f]">Gratis</span>
+          <span class="rounded-full bg-[#e8f5ed] px-3 py-1.5 text-[#116b3c]">{book.data.category}</span>
+          <span class="rounded-full bg-[#e8f5ed] px-3 py-1.5 text-[#116b3c]">Gratis</span>
         </div>
         <h1 class="mt-5 text-4xl font-black tracking-tight text-ink">{book.data.title}</h1>
-        <p class="mt-4 text-lg leading-8 text-[#777184]">{book.data.description}</p>
+        <p class="mt-4 text-lg leading-8 text-[#68776d]">{book.data.description}</p>
         <dl class="mt-7 grid grid-cols-2 gap-3">
-          <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#938b9d]">Edad recomendada</dt><dd class="mt-1 font-black text-ink">{book.data.age} años</dd></div>
-          <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#938b9d]">Páginas</dt><dd class="mt-1 font-black text-ink">{book.data.pages}</dd></div>
+          <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#68776d]">Edad recomendada</dt><dd class="mt-1 font-black text-ink">{book.data.age} años</dd></div>
+          <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#68776d]">Páginas</dt><dd class="mt-1 font-black text-ink">{book.data.pages}</dd></div>
         </dl>
         {pdfUrl ? (
-          <a class="focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#8f78bd] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#8f78bd]/20 hover:bg-[#7860a7]" href={pdfUrl} download>Descargar libro gratis ↓</a>
+          <a class="focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#16834a] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#16834a]/20 hover:bg-[#116b3c]" href={pdfUrl} download>Descargar libro gratis ↓</a>
         ) : (
-          <p class="mt-8 rounded-2xl bg-[#fff1b8] p-4 text-sm font-bold text-[#75612a]">No hay un archivo de descarga disponible para este título.</p>
+          <p class="mt-8 rounded-2xl bg-[#edf5ef] p-4 text-sm font-bold text-[#116b3c]">No hay un archivo de descarga disponible para este título.</p>
         )}
       </div>
     </article>
