@@ -5,6 +5,12 @@ description: "Un libro para colorear con 25 dibujos de unicornios, arcoíris, ca
 age: "4-8"
 pages: 53
 category: "Fantasía"
+keywords:
+  - "libro para colorear unicornios"
+  - "dibujos de unicornios para niños"
+  - "arcoíris y castillos mágicos"
+  - "fantasía infantil"
+  - "PDF para colorear e imprimir"
 characters:
   - "princesses"
 cover: "/images/covers/el-mundo-magico-de-los-unicornios.svg"
