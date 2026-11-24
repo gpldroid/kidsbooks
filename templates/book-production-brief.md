@@ -1,92 +1,111 @@
 # Brief de producción de libro
 
-Completa este documento antes de generar ilustraciones o diseñar páginas.
+Duplica este archivo para cada libro y complétalo antes de generar ilustraciones. El estándar obligatorio está en docs/ESTANDAR-PRODUCCION-LIBROS.md.
 
-## Identificación
+## 1. Identificación
 
-- **Título:**
-- **Slug:** `minúsculas-con-guiones`
-- **Tema principal:**
-- **Idioma:**
-- **Edad objetivo:**
-- **Objetivo educativo o de entretenimiento:**
-- **Categoría del catálogo:**
+- Título:
+- Slug: minúsculas-con-guiones
+- Tema y subtemas:
+- Idioma: español
+- Edad objetivo:
+- Objetivo del libro:
+- Categoría del catálogo:
+- Número de ilustraciones:
 
-## Especificación física
+## 2. Especificación de impresión
 
-- **Tamaño:** A4 / US Letter / otro
-- **Orientación:** vertical / horizontal
-- **Número de ilustraciones:**
-- **¿Incluye portada?:** sí / no
-- **¿Incluye bienvenida?:** sí / no
-- **¿Incluye contraportada?:** sí / no
-- **¿Incluye páginas blancas protectoras?:** sí / no
-- **Número total de páginas previsto:**
+- Tamaño: A4 (210 × 297 mm), salvo excepción aprobada
+- Orientación: vertical
+- Resolución raster mínima: 300 dpi
+- Margen seguro: 10 mm como mínimo
+- Formato final: PDF listo para imprimir
+- Portada: a color / blanco y negro
+- Bienvenida: sí / no
+- Página blanca protectora después de cada dibujo: sí / no
+- Contraportada: sí / no
+- Total de páginas calculado:
+- Excepciones al estándar y justificación:
 
-## Mapa de páginas
+Si se usa la secuencia predeterminada (portada + bienvenida + cada dibujo seguido de página blanca + contraportada), el total es 2 × número de ilustraciones + 3.
 
-| N.º | Tipo de página | Descripción / escena | Idioma / texto |
-|---:|---|---|---|
-| 1 | Portada | | |
-| 2 | Bienvenida / interior | | |
-| 3 | Ilustración | | |
+## 3. Mapa de páginas completo
 
-Añade filas hasta describir todas las páginas. Si hay páginas blancas protectoras, registra cada posición explícitamente.
+Registra todas las páginas del PDF en el orden exacto. Cada página necesita su propia fila. No uses rangos ambiguos.
 
-## Dirección visual
+| Página | Tipo | Escena / contenido | Texto | ¿Debe quedar en blanco? |
+|---:|---|---|---|---|
+| 1 | Portada | | | No |
+| 2 | Bienvenida | | | No |
+| 3 | Ilustración 01 | | | No |
+| 4 | Reverso protector 01 | | | Sí |
+| 5 | Ilustración 02 | | | No |
+| 6 | Reverso protector 02 | | | Sí |
+| … | Añadir una fila por cada página | | | |
 
-- **Estilo de portada:**
-- **Paleta de portada:**
-- **Grosor de línea interior:**
-- **Nivel de detalle:**
-- **Elementos prohibidos:**
-- **Márgenes seguros:**
+Total de filas del mapa: debe coincidir con el total de páginas del PDF y el campo pages.
 
-## Archivos previstos
+## 4. Dirección visual
 
-- Portada: `public/images/covers/<slug>.<ext>`
-- PDF: `public/books/<slug>.pdf`
-- Ficha: `src/content/books/<slug>.md`
+- Estilo de portada:
+- Paleta de portada:
+- Estilo interior: contorno negro limpio sobre fondo blanco
+- Grosor de línea: objetivo 2–3 pt en tamaño final
+- Nivel de detalle según edad:
+- Composición: centrada, dentro de márgenes seguros
+- Elementos prohibidos: grises, sombras, degradados, texturas, marcas de agua, logotipos y texto dentro de dibujos
+
+## 5. Archivos y metadatos
+
+- Portada: public/images/covers/<slug>.<ext>
+- PDF: public/books/<slug>.pdf
+- Ficha: src/content/books/<slug>.md
 - Fuente editable / URL de Canva:
+- Derechos y licencias de recursos:
 
-## Metadatos Astro
+Metadatos admitidos por src/content.config.ts:
 
-Completa usando exclusivamente las propiedades declaradas en `src/content.config.ts`:
-
-```yaml
+~~~yaml
 title: "Título del libro"
 slug: "titulo-del-libro"
-description: "Descripción de 20 a 220 caracteres."
-age: "3-6"
-pages: 20
-category: "Categoría"
-cover: "/images/covers/titulo-del-libro.webp"
+description: "Descripción específica de 20 a 220 caracteres."
+age: "4-8"
+pages: 53
+category: "Fantasía"
+characters: []
+cover: "/images/covers/titulo-del-libro.svg"
 pdf: "/books/titulo-del-libro.pdf"
 featured: false
 draft: true
 publishedAt: "2026-11-24"
-```
+~~~
 
-## Control de calidad
+No agregar propiedades no admitidas por el schema. pages es el número real de páginas de todo el PDF, incluidas portada, bienvenida, páginas blancas y contraportada.
 
-- [ ] Brief aprobado antes de generar.
-- [ ] Ilustraciones revisadas individualmente.
+## 6. Control de calidad y aprobación
+
+- [ ] Brief y mapa de páginas aprobados antes de diseñar.
+- [ ] Todas las ilustraciones revisadas individualmente.
+- [ ] Dificultad apropiada para la edad.
 - [ ] Textos revisados en el idioma definido.
-- [ ] PDF exportado y abierto fuera de Canva.
-- [ ] Número y secuencia de páginas verificados.
-- [ ] Tamaño y orientación comprobados en todas las páginas.
-- [ ] Páginas blancas verificadas cuando corresponda.
 - [ ] Derechos de uso y distribución comprobados.
-- [ ] Portada y PDF guardados en `public/`.
-- [ ] `npm test`, `npm run validate`, `npm run check` y `npm run build` correctos.
-- [ ] Descarga pública comprobada después del despliegue.
+- [ ] PDF final abierto fuera de la herramienta de diseño.
+- [ ] Total de páginas igual al mapa y al campo pages.
+- [ ] Tamaño y orientación comprobados en todas las páginas.
+- [ ] Cada página revisada visualmente.
+- [ ] Páginas protectoras completamente vacías.
+- [ ] Sin páginas accidentales, duplicadas ni omitidas.
+- [ ] Portada y contraportada revisadas.
+- [ ] Portada y PDF guardados en las rutas previstas.
+- [ ] npm test, npm run validate, npm run check y npm run build correctos.
+- [ ] Ficha y descarga pública verificadas después del despliegue.
 
-## Registro de producción
+## 7. Registro
 
-- **Fecha de inicio:**
-- **Fecha de exportación:**
-- **Fecha de revisión:**
-- **Persona revisora:**
-- **Resultado / incidencias:**
-- **Commit de publicación:**
-- **URL pública:**
+- Fecha de inicio:
+- Fecha de exportación:
+- Revisor/a:
+- Incidencias y resolución:
+- Commit de publicación:
+- URL de la ficha:
+- URL del PDF:
