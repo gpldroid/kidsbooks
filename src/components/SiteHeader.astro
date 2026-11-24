@@ -1,0 +1,16 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<header class="sticky top-0 z-30 border-b border-[#eee7df] bg-[#fffaf3]/90 backdrop-blur">
+  <div class="container-page flex h-18 items-center justify-between gap-4">
+    <a class="focus-ring flex items-center gap-2 rounded-xl" href={base} aria-label="kids books, inicio">
+      <span class="grid size-10 place-items-center rounded-2xl bg-[#e9ddff] text-xl" aria-hidden="true">✿</span>
+      <span class="text-xl font-black tracking-tight text-ink">kids books<span class="text-[#a18bd2]">.</span></span>
+    </a>
+    <nav aria-label="Navegación principal" class="flex items-center gap-5 text-sm font-bold text-[#625d70]">
+      <a class="focus-ring rounded-lg hover:text-[#8a70c1]" href={base}>Inicio</a>
+      <a class="focus-ring rounded-lg hover:text-[#8a70c1]" href={`${base}libros/`}>Libros</a>
+      <a class="focus-ring rounded-lg hover:text-[#8a70c1]" href={`${base}#como-funciona`}>Cómo funciona</a>
+    </nav>
+  </div>
+</header>
