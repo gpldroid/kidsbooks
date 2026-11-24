@@ -69,7 +69,7 @@ const base = import.meta.env.BASE_URL;
           { icon: "⬇️", title: "Descárgalo gratis", text: "Abre la ficha del libro y descarga el PDF disponible.", color: "bg-[#dceeff]" },
           { icon: "🖍️", title: "¡A colorear!", text: "Imprime las páginas, prepara tus lápices y deja volar tu imaginación.", color: "bg-[#d9f3e7]" }
         ].map((step) => (
-          <article class="rounded-[1.7rem] border border-[#eee7df] bg-white p-7 text-center soft-shadow">
+          <article class="step-card p-7 text-center">
             <div class:list={["mx-auto grid size-16 place-items-center rounded-3xl text-3xl", step.color]}>{step.icon}</div>
             <h3 class="mt-5 text-lg font-black text-ink">{step.title}</h3>
             <p class="mt-2 text-sm leading-6 text-[#777184]">{step.text}</p>
