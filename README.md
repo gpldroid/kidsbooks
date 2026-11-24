@@ -168,6 +168,7 @@ Cada push a `main` ejecuta las comprobaciones y publica el resultado si todo pas
 - [Guía de Canva](docs/GUIA-CANVA.md)
 - [Publicación en GitHub Pages](docs/DEPLOY-GITHUB-PAGES.md)
 - [Licencias y derechos](docs/LICENCIAS-Y-DERECHOS.md)
+- [Sistema de diseño e interfaz](docs/DISENO-Y-UI.md)
 - [Contribuir al proyecto](CONTRIBUTING.md)
 
 ## Licencias y uso responsable
