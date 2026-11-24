@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SiteHeader from "@components/SiteHeader.astro";
+import Header from "@components/Header.astro";
 import SiteFooter from "@components/SiteFooter.astro";
 
 export async function getStaticPaths() {
@@ -17,7 +17,7 @@ const pdfUrl = book.data.pdf
   : undefined;
 ---
 <BaseLayout title={book.data.title} description={book.data.description}>
-  <SiteHeader />
+  <Header />
   <main class="container-page min-h-[65vh] py-12">
     <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>← Volver a los libros</a>
     <article class="mt-7 grid items-start gap-9 md:grid-cols-[.9fr_1.1fr]">
