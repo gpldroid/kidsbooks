@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Header from "@components/Header.astro";
+import SiteFooter from "@components/SiteFooter.astro";
+const faqs = [
+  { q: "¿Los libros son gratuitos?", a: "Los títulos publicados en la biblioteca se ofrecen para descargar gratuitamente. Consulta la ficha de cada libro para comprobar si su archivo PDF está disponible." },
+  { q: "¿Cómo descargo un libro?", a: "Abre el libro que te interesa y pulsa el botón de descarga. El archivo se ofrece en formato PDF cuando está disponible." },
+  { q: "¿Puedo imprimir las páginas?", a: "Sí. Los archivos PDF están pensados para que puedas abrirlos e imprimirlos desde un dispositivo compatible. Revisa las características de cada libro antes de imprimir." },
+  { q: "¿Qué edad deben tener los niños?", a: "La edad recomendada aparece en la ficha de cada libro. La persona adulta responsable puede valorar si el contenido y la dificultad son adecuados." },
+  { q: "¿Puedo usar los libros en clase?", a: "Consulta las condiciones de uso y los derechos indicados para cada material antes de utilizarlo en actividades colectivas o redistribuirlo." },
+  { q: "¿Qué hago si un enlace no funciona?", a: "Comprueba tu conexión y vuelve a intentarlo. Si el problema continúa, envíanos el nombre del libro y el enlace desde la página de contacto." }
+];
+---
+<BaseLayout title="Preguntas frecuentes | kids books" description="Resuelve dudas sobre la descarga gratuita, impresión, edades recomendadas y uso de los libros infantiles para colorear de kids books.">
+  <Header />
+  <main class="container-page page-shell">
+    <header class="page-heading"><p class="page-eyebrow">Ayuda</p><h1>Preguntas frecuentes</h1><p>Información práctica para encontrar, descargar e imprimir los libros de la biblioteca.</p></header>
+    <div class="faq-list">{faqs.map((faq) => <details class="content-panel faq-item"><summary>{faq.q}</summary><p>{faq.a}</p></details>)}</div>
+    <p class="mt-7 text-sm text-muted">¿No encuentras tu respuesta? Visita nuestra página de <a class="text-link" href={`${import.meta.env.BASE_URL}contacto/`}>contacto</a>.</p>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+<style>
+  .faq-list { display:grid; gap:.9rem; }.faq-item { padding:1.25rem 1.5rem; }.faq-item summary { color:#26352d; font-weight:950; cursor:pointer; }.faq-item p { margin:.8rem 0 0; color:#68776d; line-height:1.8; }.faq-item[open] { border-color:#9ac9aa; }
+</style>
