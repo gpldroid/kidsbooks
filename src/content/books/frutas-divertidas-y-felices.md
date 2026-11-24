@@ -10,5 +10,6 @@ pdf: "/books/frutas_divertidas_y_felices_53_paginas_final.pdf"
 featured: true
 draft: false
 publishedAt: "2026-11-24"
+---
 
 ¡Hola, pequeño artista! Descubre 25 ilustraciones de frutas simpáticas para colorear. Después de cada dibujo encontrarás una página completamente blanca que ayuda a proteger el reverso de la hoja. Incluye portada, bienvenida y contraportada: 53 páginas A4 en orientación vertical.
