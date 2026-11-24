@@ -1,6 +1,6 @@
 # Plan editorial: Frutas Divertidas y Felices
 
-**Estado:** PDF maestro creado y comprobado; pendiente de integrar los archivos en el repositorio y publicar la ficha en Astro.  
+**Estado:** ficha y portada SVG integradas en Astro como borrador; PDF maestro verificado localmente, pendiente de incorporarse al repositorio para habilitar la publicación.  
 **Slug:** `frutas-divertidas-y-felices`  
 **Idioma:** español  
 **Edad objetivo:** 3-6 años  
@@ -89,19 +89,19 @@ Las páginas blancas protectoras son exactamente las páginas pares de la 4 a la
 | 25 páginas blancas protectoras | Verificadas |
 | Ilustraciones interiores en blanco y negro | Verificadas |
 | Diseño importado en Canva | Disponible en el enlace superior |
-| PDF dentro de `public/books/` | Pendiente |
-| Portada independiente en `public/images/covers/` | Pendiente |
-| Ficha Markdown en `src/content/books/` | Pendiente |
-| Validación, build y publicación del libro | Pendiente |
+| PDF dentro de `public/books/` | Pendiente: falta transferir el archivo binario al repositorio |
+| Portada independiente en `public/images/covers/` | Integrada: `frutas-divertidas-y-felices.svg` |
+| Ficha Markdown en `src/content/books/` | Integrada como `draft: true` |
+| Validador de número real de páginas PDF | Implementado con `pdf-lib`; prueba de unidad añadida |\n| Validación, build y publicación del libro | En curso mediante GitHub Actions; el libro sigue sin publicar hasta incorporar el PDF |
 
-El PDF maestro de trabajo se generó fuera del repositorio. La validación de su paginación no significa que ya esté desplegado en GitHub Pages. Antes de publicar, incorpora el PDF y la portada al repositorio y vuelve a ejecutar todas las comprobaciones.
+El PDF maestro de trabajo se generó fuera del repositorio y se verificó localmente con 53 páginas A4 verticales. La portada SVG y la ficha Astro ya están en el repositorio, pero la ficha permanece en `draft: true` porque el archivo PDF binario aún no se ha transferido a `public/books/`. El validador ahora abre cada PDF con `pdf-lib` y compara su número real de páginas con `pages` del frontmatter; también bloquea rutas que intenten salir de `public/`. La publicación queda bloqueada intencionalmente hasta que el PDF esté presente y la validación, las pruebas y el build pasen.
 
 ## 4. Integración en el sitio
 
 Nombres de archivo recomendados:
 
 - `public/books/frutas-divertidas-y-felices.pdf`
-- `public/images/covers/frutas-divertidas-y-felices.webp` (o `.png` / `.jpg`, según el archivo exportado)
+- `public/images/covers/frutas-divertidas-y-felices.svg` (portada provisional integrada; se puede sustituir por una exportación raster del diseño final)
 - `src/content/books/frutas-divertidas-y-felices.md`
 
 Usa el schema real de `src/content.config.ts`. El frontmatter compatible con el esquema actual es:
@@ -127,9 +127,9 @@ publishedAt: "2026-11-24"
 ## 5. Próximos pasos
 
 1. Abrir el diseño Canva y exportar la portada frontal como imagen independiente.
-2. Obtener el PDF maestro final y copiarlo a `public/books/frutas-divertidas-y-felices.pdf`.
+2. Copiar el PDF maestro final de 53 páginas a `public/books/frutas-divertidas-y-felices.pdf`.
 3. Guardar la portada en `public/images/covers/`.
-4. Crear `src/content/books/frutas-divertidas-y-felices.md` a partir del frontmatter anterior.
+4. Revisar la ficha ya creada en `src/content/books/frutas-divertidas-y-felices.md` y mantener `draft: true`.
 5. Mantener `draft: true` y ejecutar:
    ```bash
    npm test
@@ -150,8 +150,8 @@ publishedAt: "2026-11-24"
 - [ ] 25 ilustraciones distintas en páginas 3, 5, 7, ..., 51.
 - [ ] 25 páginas completamente blancas en páginas 4, 6, 8, ..., 52.
 - [ ] Sin páginas duplicadas, accidentales o fuera de orden.
-- [ ] Portada exportada como archivo independiente.
-- [ ] PDF y portada dentro de `public/`.
+- [x] Portada SVG independiente integrada; sustituirla si se decide usar la exportación final de Canva.
+- [ ] PDF dentro de `public/` (la portada ya está integrada).
 - [ ] Frontmatter compatible con Astro Content Collections.
 - [ ] Pruebas, validación, TypeScript/Astro y build correctos.
 - [ ] Descarga pública probada después del despliegue.
