@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SiteHeader from "@components/SiteHeader.astro";
+import SiteFooter from "@components/SiteFooter.astro";
+import BookCard from "@components/BookCard.astro";
+
+const books = (await getCollection("books", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+<BaseLayout title="Biblioteca gratuita" description="Todos nuestros libros infantiles gratuitos para colorear e imprimir.">
+  <SiteHeader />
+  <main class="container-page min-h-[65vh] py-14">
+    <div class="max-w-2xl">
+      <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">Colección completa</p>
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-ink">Biblioteca de libros</h1>
+      <p class="mt-4 leading-7 text-[#777184]">Todos los libros son gratuitos. Elige una colección, descarga el PDF e imprime tus páginas favoritas.</p>
+    </div>
+    {books.length > 0 ? (
+      <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {books.map((book) => <BookCard book={book} />)}
+      </div>
+    ) : (
+      <div class="mt-10 rounded-[2rem] border border-dashed border-[#d9cce9] bg-[#f8f3ff] px-6 py-16 text-center">
+        <span class="text-4xl" aria-hidden="true">🌈</span>
+        <h2 class="mt-4 text-xl font-black text-ink">Estamos preparando la biblioteca</h2>
+        <p class="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#777184]">Todavía no hay libros publicados. Muy pronto encontrarás aquí nuevas páginas para colorear.</p>
+      </div>
+    )}
+  </main>
+  <SiteFooter />
+</BaseLayout>
