@@ -3,17 +3,19 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Header from "@components/Header.astro";
 import SiteFooter from "@components/SiteFooter.astro";
+import { categoryHref } from "@utils/taxonomy";
+
 const base = import.meta.env.BASE_URL;
 const books = await getCollection("books", ({ data }) => !data.draft);
 const categories = [...new Set(books.map((book) => book.data.category))].sort((a, b) => a.localeCompare(b, "es"));
-const slugify = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 ---
-<BaseLayout title="Categorías de libros para colorear" description="Explora los libros infantiles gratuitos para colorear organizados por categorías y temas.">
+<BaseLayout title="Categorías de libros para colorear" description="Explora libros infantiles gratuitos para colorear organizados por temas: frutas, fantasía, naturaleza y más." keywords={["categorías de libros para colorear", "libros infantiles por temas", "dibujos para colorear por categoría"]}>
   <Header />
   <main class="container-page page-shell">
-    <header class="page-heading"><p class="page-eyebrow">Explora por tema</p><h1>Categorías</h1><p>Encuentra libros para colorear según los temas que más gustan a los pequeños artistas.</p></header>
+    <nav class="mb-6 text-sm font-bold text-muted" aria-label="Migas de pan"><a class="text-link" href={base}>Inicio</a><span aria-hidden="true"> / </span><span aria-current="page">Categorías</span></nav>
+    <header class="page-heading"><p class="page-eyebrow">Explora por tema</p><h1>Categorías de libros para colorear</h1><p>Encuentra libros infantiles gratuitos según los temas que más gustan a los pequeños artistas.</p></header>
     {categories.length > 0 ? <nav class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Categorías de libros">
-      {categories.map((category) => { const count = books.filter((book) => book.data.category === category).length; return <a class="category-link" href={`${base}categorias/${slugify(category)}/`}><strong>{category}</strong><span>{count} {count === 1 ? "libro" : "libros"} →</span></a>; })}
+      {categories.map((category) => { const count = books.filter((book) => book.data.category === category).length; return <a class="category-link" href={categoryHref(base, category)}><strong>{category}</strong><span>{count} {count === 1 ? "libro" : "libros"} →</span></a>; })}
     </nav> : <section class="content-panel"><h2>Estamos preparando nuevas categorías</h2><p>Vuelve pronto para descubrir nuevos temas en la biblioteca.</p></section>}
   </main>
   <SiteFooter />
