@@ -11,15 +11,15 @@ export async function getStaticPaths() {
 
 const { book } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const coverUrl = `${base}${book.data.cover.replace(/^\/+/, "")}`;
+const coverUrl = `${base}${book.data.cover.replace(/^\\/+/, "")}`;
 const pdfUrl = book.data.pdf
-  ? `${base}${book.data.pdf.replace(/^\/+/, "")}`
+  ? `${base}${book.data.pdf.replace(/^\\/+/, "")}`
   : undefined;
 ---
 <BaseLayout title={book.data.title} description={book.data.description}>
   <SiteHeader />
   <main class="container-page min-h-[65vh] py-12">
-    <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>← Volver a la biblioteca</a>
+    <a class="focus-ring inline-flex rounded-lg text-sm font-extrabold text-[#8068ad] hover:underline" href={`${base}libros/`}>← Volver a los libros</a>
     <article class="mt-7 grid items-start gap-9 md:grid-cols-[.9fr_1.1fr]">
       <div class="rounded-[2rem] bg-[#e9ddff] p-5">
         <img src={coverUrl} alt={`Portada: ${book.data.title}`} class="w-full rounded-2xl bg-white shadow-lg" />
@@ -38,7 +38,7 @@ const pdfUrl = book.data.pdf
         {pdfUrl ? (
           <a class="focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#8f78bd] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#8f78bd]/20 hover:bg-[#7860a7]" href={pdfUrl} download>Descargar libro gratis ↓</a>
         ) : (
-          <p class="mt-8 rounded-2xl bg-[#fff1b8] p-4 text-sm font-bold text-[#75612a]">El PDF estará disponible próximamente.</p>
+          <p class="mt-8 rounded-2xl bg-[#fff1b8] p-4 text-sm font-bold text-[#75612a]">No hay un archivo de descarga disponible para este título.</p>
         )}
       </div>
     </article>
