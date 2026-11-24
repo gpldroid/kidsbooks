@@ -3,18 +3,32 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Header from "@components/Header.astro";
 import SiteFooter from "@components/SiteFooter.astro";
+import BookCard from "@components/BookCard.astro";
+import { categoryHref } from "@utils/taxonomy";
 
 export async function getStaticPaths() {
   const books = await getCollection("books", ({ data }) => !data.draft);
-  return books.map((book) => ({ params: { slug: book.data.slug }, props: { book } }));
+  return books.map((book) => ({
+    params: { slug: book.data.slug },
+    props: { book, allBooks: books }
+  }));
 }
 
-const { book } = Astro.props;
+const { book, allBooks } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const coverUrl = `${base}${book.data.cover.slice(1)}`;
-const pdfUrl = book.data.pdf
-  ? `${base}${book.data.pdf.slice(1)}`
-  : undefined;
+const pdfUrl = book.data.pdf ? `${base}${book.data.pdf.slice(1)}` : undefined;
+const relatedBooks = allBooks
+  .filter((candidate) => candidate.id !== book.id)
+  .map((candidate) => ({
+    book: candidate,
+    score: (candidate.data.category === book.data.category ? 3 : 0) +
+      candidate.data.keywords.filter((keyword) => book.data.keywords.includes(keyword)).length
+  }))
+  .filter((candidate) => candidate.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 3)
+  .map((candidate) => candidate.book);
 const bookStructuredData = {
   "@context": "https://schema.org",
   "@type": "Book",
@@ -24,21 +38,22 @@ const bookStructuredData = {
   "inLanguage": "es",
   "numberOfPages": book.data.pages,
   "genre": "Libro infantil para colorear",
+  "keywords": book.data.keywords.join(", "),
   "audience": { "@type": "PeopleAudience", "suggestedMinAge": Number(book.data.age.split("-")[0]), "suggestedMaxAge": Number(book.data.age.split("-")[1] ?? book.data.age) }
 };
 ---
-<BaseLayout title={book.data.title} description={book.data.description} ogImage={book.data.cover} type="article">
+<BaseLayout title={book.data.title} description={book.data.description} keywords={[book.data.category, `libro para colorear ${book.data.category.toLocaleLowerCase("es")}`, ...book.data.keywords]} ogImage={book.data.cover} type="article">
   <Header />
   <script type="application/ld+json" set:html={JSON.stringify(bookStructuredData)} />
   <main class="container-page min-h-[65vh] py-12">
-    <nav class="mb-5 text-sm font-bold text-muted" aria-label="Migas de pan"><a class="text-link" href={`${base}libros/`}>Libros</a><span aria-hidden="true"> / </span><span aria-current="page">{book.data.title}</span></nav>
+    <nav class="mb-5 text-sm font-bold text-muted" aria-label="Migas de pan"><a class="text-link" href={base}>Inicio</a><span aria-hidden="true"> / </span><a class="text-link" href={`${base}libros/`}>Libros</a><span aria-hidden="true"> / </span><a class="text-link" href={categoryHref(base, book.data.category)}>{book.data.category}</a><span aria-hidden="true"> / </span><span aria-current="page">{book.data.title}</span></nav>
     <article class="mt-7 grid items-start gap-9 md:grid-cols-[.9fr_1.1fr]">
       <div class="rounded-[2rem] bg-[#e8f5ed] p-5">
         <img src={coverUrl} alt={`Portada: ${book.data.title}`} class="w-full rounded-2xl bg-white shadow-lg" />
       </div>
       <div class="pt-2">
         <div class="flex flex-wrap gap-2 text-xs font-extrabold">
-          <span class="rounded-full bg-[#e8f5ed] px-3 py-1.5 text-[#116b3c]">{book.data.category}</span>
+          <a class="rounded-full bg-[#e8f5ed] px-3 py-1.5 text-[#116b3c]" href={categoryHref(base, book.data.category)}>{book.data.category}</a>
           <span class="rounded-full bg-[#e8f5ed] px-3 py-1.5 text-[#116b3c]">Gratis</span>
         </div>
         <h1 class="mt-5 text-4xl font-black tracking-tight text-ink">{book.data.title}</h1>
@@ -47,6 +62,7 @@ const bookStructuredData = {
           <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#68776d]">Edad recomendada</dt><dd class="mt-1 font-black text-ink">{book.data.age} años</dd></div>
           <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#68776d]">Páginas</dt><dd class="mt-1 font-black text-ink">{book.data.pages}</dd></div>
         </dl>
+        {book.data.keywords.length > 0 && <section class="mt-6" aria-label="Temas de este libro"><h2 class="mb-2 text-xs font-black uppercase tracking-wide text-[#68776d]">Temas relacionados</h2><div class="flex flex-wrap gap-2">{book.data.keywords.map((keyword) => <a class="rounded-full border border-[#dce9df] bg-white px-3 py-1.5 text-xs font-bold text-[#116b3c]" href={categoryHref(base, book.data.category)}>{keyword}</a>)}</div></section>}
         {pdfUrl ? (
           <a class="download-book-button focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#16834a] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#16834a]/20 hover:bg-[#116b3c]" style="color: #ffffff;" href={pdfUrl} download>Descargar libro gratis ↓</a>
         ) : (
@@ -54,6 +70,7 @@ const bookStructuredData = {
         )}
       </div>
     </article>
+    {relatedBooks.length > 0 && <section class="mt-16" aria-labelledby="related-books-title"><div class="mb-5 flex items-end justify-between gap-4"><div><p class="text-xs font-black uppercase tracking-widest text-[#16834a]">Sigue explorando</p><h2 id="related-books-title" class="mt-1 text-2xl font-black text-ink">Libros relacionados</h2></div><a class="text-sm font-extrabold text-[#16834a]" href={categoryHref(base, book.data.category)}>Ver categoría ↗</a></div><div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">{relatedBooks.map((relatedBook) => <BookCard book={relatedBook} />)}</div></section>}
   </main>
   <SiteFooter />
 </BaseLayout>
