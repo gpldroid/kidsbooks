@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "validate": "node scripts/validate-books.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "generate:nature-book": "node scripts/generate-nature-book.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
