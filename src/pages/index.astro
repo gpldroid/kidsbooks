@@ -19,9 +19,9 @@ const books = (await getCollection("books", ({ data }) => !data.draft))
         <p class="section-kicker">Fácil y divertido</p>
         <h2>¿Cómo descargar tu libro?</h2>
         <div class="download-steps">
-          <article><span>📚</span><h3>1. Elige tu libro</h3><p>Encuentra una aventura que te guste en nuestra biblioteca.</p></article>
-          <article><span>⬇️</span><h3>2. Descarga el PDF</h3><p>Abre la ficha del libro y pulsa el botón de descarga gratuita.</p></article>
-          <article><span>🖍️</span><h3>3. ¡A colorear!</h3><p>Imprime las páginas, prepara tus lápices y disfruta creando.</p></article>
+          <article class="step-card"><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 5.5v16M8 7h8M8 11h7"/></svg></span><h3>1. Elige tu libro</h3><p>Encuentra una aventura que te guste en nuestra biblioteca.</p></article>
+          <article class="step-card"><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v4h14v-4"/></svg></span><h3>2. Descarga el PDF</h3><p>Abre la ficha del libro y pulsa el botón de descarga gratuita.</p></article>
+          <article class="step-card"><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 16 10-10 4 4L8 20H4v-4Z"/><path d="m12 8 4 4M14 4l2-2 4 4-2 2"/></svg></span><h3>3. ¡A colorear!</h3><p>Imprime las páginas, prepara tus lápices y disfruta creando.</p></article>
         </div>
       </div>
     </section>
@@ -29,6 +29,6 @@ const books = (await getCollection("books", ({ data }) => !data.draft))
   <SiteFooter />
 </BaseLayout>
 <style>
-  .download-guide { padding:4rem 1.25rem; background:#f1f8f5; text-align:center; }.download-guide-inner { width:min(100%,1050px); margin:auto; }.download-guide h2 { margin:.4rem 0 0; color:#35566b; font-size:clamp(1.8rem,3vw,2.4rem); font-weight:1000; }.download-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-top:2rem; }.download-steps article { padding:1.5rem; border:1px solid #e2ece6; border-radius:1.4rem; background:#fff; }.download-steps article>span { font-size:2.2rem; }.download-steps h3 { margin:.7rem 0 .3rem; color:#38596b; font-size:1rem; font-weight:950; }.download-steps p { margin:0; color:#858087; font-size:.85rem; line-height:1.7; }
+  .download-guide { padding:4rem 1.25rem; background:#f1f8f5; text-align:center; }.download-guide-inner { width:min(100%,1050px); margin:auto; }.download-guide h2 { margin:.4rem 0 0; color:#35566b; font-size:clamp(1.8rem,3vw,2.4rem); font-weight:1000; }.download-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-top:2rem; }.download-steps article { padding:1.5rem; border:1px solid #e2ece6; border-radius:1.4rem; background:#fff; }.download-steps article>span { display:grid; width:3.2rem; height:3.2rem; place-items:center; margin-inline:auto; border:1px solid #e8e0f0; border-radius:1.1rem; background:linear-gradient(145deg,#fff,#f1eafa); color:#8068ad; box-shadow:0 4px 0 #e7deed,0 8px 16px rgb(68 54 89 / 7%); }.download-steps article>span svg { width:1.55rem; height:1.55rem; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }.download-steps h3 { margin:.7rem 0 .3rem; color:#38596b; font-size:1rem; font-weight:950; }.download-steps p { margin:0; color:#858087; font-size:.85rem; line-height:1.7; }
   @media(max-width:650px) { .download-steps { grid-template-columns:1fr; } }
 </style>
