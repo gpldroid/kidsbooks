@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import BookCard from "@components/BookCard.astro";
-import { categoryHref } from "@utils/taxonomy";
+import { categoryHref } from "../utils/taxonomy";
 
 interface Props { books: CollectionEntry<"books">[]; }
 const { books } = Astro.props;
