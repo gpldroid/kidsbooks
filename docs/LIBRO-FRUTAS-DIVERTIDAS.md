@@ -127,11 +127,11 @@ El libro ya está publicado en la colección (`draft: false`) porque los archivo
 
 ## 5. Próximos pasos
 
-1. Abrir el diseño Canva y exportar la portada frontal como imagen independiente.
-2. Copiar el PDF maestro final de 53 páginas a `public/books/frutas_divertidas_y_felices_53_paginas_final.pdf`.
-3. Guardar la portada en `public/images/covers/`.
-4. Revisar la ficha ya creada en `src/content/books/frutas-divertidas-y-felices.md` y mantener `draft: false`.
-5. Mantener `draft: false` y ejecutar:
+1. Abrir el diseño Canva y, si se desea reemplazar la portada SVG provisional, exportar la portada frontal como imagen independiente.
+2. El PDF maestro ya está integrado en `public/books/frutas_divertidas_y_felices_53_paginas_final.pdf`; no hace falta volver a subirlo.
+3. La portada SVG está integrada en `public/images/covers/`.
+4. La ficha publicada está en `src/content/books/frutas-divertidas-y-felices.md`.
+5. Ejecutar las comprobaciones después de cualquier cambio:
    ```bash
    npm test
    npm run validate
@@ -139,20 +139,20 @@ El libro ya está publicado en la colección (`draft: false`) porque los archivo
    npm run build
    ```
 6. Revisar localmente la ficha, la portada y la descarga del PDF.
-7. Cambiar a `draft: false` solo cuando la revisión esté completa.
+7. Si todos los controles pasan, mantener `draft: false`.
 8. Hacer commit y push a `main`; revisar el workflow de GitHub Actions.
 9. Después del despliegue, abrir la URL pública y descargar el PDF para confirmar que funciona.
 
 ## 6. Criterios de aceptación
 
-- [ ] PDF con 53 páginas exactas.
-- [ ] Todas las páginas A4 verticales.
+- [x] PDF con 53 páginas exactas.
+- [x] Todas las páginas A4 verticales.
 - [ ] Página 1 portada, página 2 bienvenida y página 53 contraportada.
 - [ ] 25 ilustraciones distintas en páginas 3, 5, 7, ..., 51.
 - [ ] 25 páginas completamente blancas en páginas 4, 6, 8, ..., 52.
 - [ ] Sin páginas duplicadas, accidentales o fuera de orden.
 - [x] Portada SVG independiente integrada; sustituirla si se decide usar la exportación final de Canva.
 - [x] PDF dentro de `public/` y portada SVG integrada.
-- [ ] Frontmatter compatible con Astro Content Collections.
+- [x] Frontmatter compatible con Astro Content Collections.
 - [ ] Pruebas, validación, TypeScript/Astro y build correctos.
 - [ ] Descarga pública probada después del despliegue.
