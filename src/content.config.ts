@@ -10,6 +10,7 @@ const books = defineCollection({
     age: z.string().min(1).max(20),
     pages: z.number().int().positive().max(200),
     category: z.string().min(2).max(40),
+    keywords: z.array(z.string().min(2).max(60)).default([]),
     characters: z.array(z.enum(["fruits", "animals", "princesses", "heroes", "Naturaleza"])).default([]),
     cover: z.string().startsWith("/"),
     pdf: z.string().startsWith("/").optional(),
@@ -22,6 +23,14 @@ const books = defineCollection({
         code: z.ZodIssueCode.custom,
         path: ["pdf"],
         message: "Un libro publicado debe incluir una ruta PDF."
+      });
+    }
+    const normalizedKeywords = book.keywords.map((keyword) => keyword.trim().toLocaleLowerCase("es"));
+    if (new Set(normalizedKeywords).size !== normalizedKeywords.length) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["keywords"],
+        message: "Las palabras clave no deben repetirse."
       });
     }
   })
