@@ -2,6 +2,7 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 /** @typedef {import("pdf-lib").PDFPage} PDFPage */
 import fs from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 
 const slug = "pequenos-exploradores-de-la-naturaleza";
 const out = path.resolve("public/books");
@@ -36,9 +37,9 @@ function tree(p,x,y,s=1){line(p,x,y,x,y+100*s,5);circle(p,x-25*s,y+95*s,35*s);ci
 function animal(p,x,y,s=1,kind=0){ellipse(p,x,y,48*s,30*s);circle(p,x+42*s,y+28*s,25*s);circle(p,x+34*s,y+57*s,10*s);circle(p,x+55*s,y+57*s,10*s);circle(p,x+50*s,y+33*s,3*s);circle(p,x+68*s,y+25*s,3*s);line(p,x-25*s,y-22*s,x-30*s,y-55*s,3);line(p,x+12*s,y-22*s,x+10*s,y-55*s,3);line(p,x-15*s,y-25*s,x-18*s,y-55*s,3);line(p,x+22*s,y-25*s,x+24*s,y-55*s,3);if(kind%3===0){line(p,x-45*s,y+5*s,x-72*s,y+35*s,4);}}
 /** @param {PDFPage} p @param {number} i */
 function landscape(p,i){cloud(p,125,675,.8);cloud(p,430,700,.65);line(p,55,210,540,210,2);if(i%3===0){tree(p,105,220,.8);tree(p,475,220,.7);}if(i%3===1){p.drawSvgPath("M 0 0 L 90 150 L 180 0 Z",{x:90,y:210,borderColor:black,borderWidth:2,color:rgb(1,1,1)});p.drawSvgPath("M 0 0 L 90 150 L 180 0 Z",{x:310,y:210,borderColor:black,borderWidth:2,color:rgb(1,1,1)});}if(i%3===2){for(let k=0;k<4;k++)flower(p,95+k*120,230,.65);}}
-/** @param {PDFPage} p @param {number} i */
-function drawScene(p,i){landscape(p,i);const x=285,y=390;switch(i){
-case 0: animal(p,230,340,.8);animal(p,350,340,.8);for(let k=0;k<4;k++)ellipse(p,170+k*75,270,10,5);break;
+/** @param {PDFPage} p @param {number} i @param {import("pdf-lib").PDFImage} natureImage */
+function drawScene(p,i,natureImage){landscape(p,i);const x=285,y=390;switch(i){
+case 0: p.drawImage(natureImage,{x:0,y:0,width:W,height:H});break;
 case 1: tree(p,285,260,1.7);for(let k=0;k<5;k++)leaf(p,120+k*65,300,.55);break;
 case 2: flower(p,285,330,1.6);ellipse(p,285,475,18,45);ellipse(p,245,475,30,17);ellipse(p,325,475,30,17);line(p,285,430,285,390,2);break;
 case 3: animal(p,285,400,.55,1);for(let k=0;k<5;k++)flower(p,110+k*95,270,.55);break;
@@ -75,7 +76,10 @@ function drawCover(p,back=false){p.drawRectangle({x:0,y:0,width:W,height:H,color
  lines.forEach((t,i)=>p.drawText(t,{x:65,y:655-i*34,size:16,font,color:black}));
  flower(p,295,300,1.5);
 }
-for(let i=0;i<25;i++){const p=pdf.addPage([W,H]);drawScene(p,i);pdf.addPage([W,H]);}
+const natureSvg=await fs.readFile(new URL("./assets/nature-explorers-01.svg",import.meta.url));
+const naturePng=await sharp(natureSvg).png().toBuffer();
+const natureImage=await pdf.embedPng(naturePng);
+for(let i=0;i<25;i++){const p=pdf.addPage([W,H]);drawScene(p,i,natureImage);pdf.addPage([W,H]);}
 {const p=pdf.addPage([W,H]);drawCover(p,true);}
 if(pdf.getPageCount()!==53)throw new Error("Expected exactly 53 pages");
 await fs.writeFile(path.join(out,slug+".pdf"),await pdf.save());
