@@ -9,7 +9,7 @@ import SiteFooter from "@components/SiteFooter.astro";
 const books = (await getCollection("books", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 ---
-<BaseLayout title="Biblioteca infantil: libros para colorear gratis" description="Explora libros infantiles gratuitos para colorear por frutas, animales, fantasía y aventuras. Descarga e imprime en familia.">
+<BaseLayout title="Biblioteca infantil: libros para colorear gratis" description="Explora libros infantiles gratuitos para colorear por frutas, animales, fantasía, naturaleza y aventuras. Descarga e imprime en familia." keywords={["libros infantiles para colorear", "libros para colorear gratis", "PDF para imprimir", "dibujos para niños", "actividades creativas infantiles"]}>
   <Header />
   <main>
     <HeroSpotlight />
