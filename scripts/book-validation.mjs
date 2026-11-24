@@ -6,6 +6,12 @@ const ROOT = process.cwd();
 const BOOKS_DIR = path.join(ROOT, "src/content/books");
 const PUBLIC_DIR = path.join(ROOT, "public");
 
+/**
+ * @param {Record<string, unknown>} data
+ * @param {string} fileName
+ * @param {(path: import("node:fs").PathLike) => boolean} [exists]
+ * @returns {string[]}
+ */
 export function validateBook(data, fileName, exists = fs.existsSync) {
   const errors = [];
   const requiredStrings = ["title", "slug", "description", "age", "category", "cover"];
@@ -42,7 +48,7 @@ export function validateBook(data, fileName, exists = fs.existsSync) {
       errors.push(`${fileName}: ${key} debe ser una ruta local que empiece por /.`);
       continue;
     }
-    const diskPath = path.join(PUBLIC_DIR, value.replace(/^\/+/, ""));
+    const diskPath = path.join(PUBLIC_DIR, value.replace(/^\\/+/, ""));
     if (!exists(diskPath)) errors.push(`${fileName}: no existe el archivo indicado en ${key}: ${value}`);
     if (key === "pdf" && value && !value.toLowerCase().endsWith(".pdf")) {
       errors.push(`${fileName}: el archivo pdf debe terminar en .pdf.`);
@@ -55,6 +61,11 @@ export function validateBook(data, fileName, exists = fs.existsSync) {
   return errors;
 }
 
+/**
+ * @param {string} [directory]
+ * @param {(path: import("node:fs").PathLike) => boolean} [exists]
+ * @returns {{ errors: string[], checked: number }}
+ */
 export function validateBookDirectory(directory = BOOKS_DIR, exists = fs.existsSync) {
   if (!fs.existsSync(directory)) return { errors: [`No existe el directorio ${directory}`], checked: 0 };
   const files = fs.readdirSync(directory).filter((name) => name.endsWith(".md"));
@@ -67,7 +78,8 @@ export function validateBookDirectory(directory = BOOKS_DIR, exists = fs.existsS
     try {
       parsed = matter(fs.readFileSync(fullPath, "utf8"));
     } catch (error) {
-      errors.push(`${fileName}: frontmatter YAML inválido: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      errors.push(`${fileName}: frontmatter YAML inválido: ${message}`);
       continue;
     }
     errors.push(...validateBook(parsed.data, fileName, exists));
