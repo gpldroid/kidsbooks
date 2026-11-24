@@ -61,7 +61,7 @@ export function validateBook(data, fileName, exists = fs.existsSync) {
   if (typeof data.featured !== "boolean") {
     errors.push(`${fileName}: featured debe ser true o false.`);
   }
-  if (typeof data.publishedAt !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(data.publishedAt) || Number.isNaN(Date.parse(`${data.publishedAt}T00:00:00Z`))) {
+  if (typeof data.publishedAt !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(data.publishedAt) || Number.isNaN(Date.parse(`${data.publishedAt}T00:00:00Z`))) {
     errors.push(`${fileName}: publishedAt debe ser una fecha válida (AAAA-MM-DD).`);
   }
 
