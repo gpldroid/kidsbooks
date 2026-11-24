@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Animales adorables para colorear</title>
+  <desc id="desc">Portada pastel con un sol, nubes y animales dibujados con líneas sencillas.</desc>
+  <rect width="800" height="600" rx="42" fill="#f0e8ff"/>
+  <circle cx="650" cy="110" r="58" fill="#ffe9a8"/>
+  <path d="M0 420 Q180 340 360 425 T800 405 V600 H0Z" fill="#d8f1e5"/>
+  <g fill="#fff" stroke="#554c68" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="260" cy="365" rx="105" ry="90"/>
+    <circle cx="260" cy="270" r="72"/>
+    <path d="M205 220 Q170 160 220 190 L250 215 M300 220 Q350 160 325 210"/>
+    <circle cx="238" cy="270" r="7" fill="#554c68"/><circle cx="284" cy="270" r="7" fill="#554c68"/>
+    <path d="M250 294 Q263 310 278 294"/>
+    <ellipse cx="520" cy="375" rx="100" ry="78"/>
+    <circle cx="520" cy="285" r="65"/>
+    <path d="M470 235 L445 190 L495 220 M555 235 L590 190 L545 220"/>
+    <circle cx="500" cy="285" r="6" fill="#554c68"/><circle cx="540" cy="285" r="6" fill="#554c68"/>
+    <path d="M510 305 Q520 318 532 305"/>
+  </g>
+  <text x="400" y="80" text-anchor="middle" fill="#514765" font-family="Arial,sans-serif" font-size="35" font-weight="700">MI PEQUEÑO LIBRO</text>
+  <text x="400" y="145" text-anchor="middle" fill="#514765" font-family="Arial,sans-serif" font-size="54" font-weight="800">DE ANIMALES</text>
+  <text x="400" y="535" text-anchor="middle" fill="#514765" font-family="Arial,sans-serif" font-size="25" font-weight="700">COLOREA · IMAGINA · SONRÍE</text>
+</svg>
