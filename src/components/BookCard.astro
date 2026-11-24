@@ -7,7 +7,7 @@ interface Props {
 
 const { book } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const coverUrl = `${base}${book.data.cover.replace(/^\\/+/, "")}`;
+const coverUrl = `${base}${book.data.cover.replace(/^\/+/, "")}`;
 const detailUrl = `${base}libros/${book.data.slug}/`;
 ---
 <article class="book-card group">
