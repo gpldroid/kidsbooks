@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  book: CollectionEntry<"books">;
+}
+const { book } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<article class="group overflow-hidden rounded-[1.7rem] border border-[#eee7df] bg-white soft-shadow transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+  <a class="focus-ring block" href={`${base}libros/${book.data.slug}/`}>
+    <div class="aspect-[4/3] overflow-hidden bg-[#f1eaff] p-4">
+      <img
+        src={book.data.cover}
+        alt={`Portada: ${book.data.title}`}
+        loading="lazy"
+        class="h-full w-full rounded-2xl object-cover transition duration-500 group-hover:scale-[1.03]"
+      />
+    </div>
+    <div class="p-5">
+      <div class="mb-3 flex flex-wrap items-center gap-2 text-xs font-extrabold">
+        <span class="rounded-full bg-[#e9ddff] px-3 py-1 text-[#66518e]">{book.data.category}</span>
+        <span class="rounded-full bg-[#d9f3e7] px-3 py-1 text-[#47765f]">Gratis</span>
+      </div>
+      <h2 class="text-lg font-black text-ink">{book.data.title}</h2>
+      <p class="mt-2 line-clamp-2 text-sm leading-6 text-[#777184]">{book.data.description}</p>
+      <div class="mt-4 flex items-center justify-between text-xs font-bold text-[#777184]">
+        <span>Edades: {book.data.age} años</span>
+        <span>{book.data.pages} páginas</span>
+      </div>
+    </div>
+  </a>
+</article>
