@@ -10,9 +10,11 @@ const faqs = [
   { q: "¿Puedo usar los libros en clase?", a: "Consulta las condiciones de uso y los derechos indicados para cada material antes de utilizarlo en actividades colectivas o redistribuirlo." },
   { q: "¿Qué hago si un enlace no funciona?", a: "Comprueba tu conexión y vuelve a intentarlo. Si el problema continúa, envíanos el nombre del libro y el enlace desde la página de contacto." }
 ];
+const faqStructuredData = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqs.map((faq) => ({ "@type": "Question", "name": faq.q, "acceptedAnswer": { "@type": "Answer", "text": faq.a } })) };
 ---
 <BaseLayout title="Preguntas frecuentes | kids books" description="Resuelve dudas sobre la descarga gratuita, impresión, edades recomendadas y uso de los libros infantiles para colorear de kids books.">
   <Header />
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
   <main class="container-page page-shell">
     <header class="page-heading"><p class="page-eyebrow">Ayuda</p><h1>Preguntas frecuentes</h1><p>Información práctica para encontrar, descargar e imprimir los libros de la biblioteca.</p></header>
     <div class="faq-list">{faqs.map((faq) => <details class="content-panel faq-item"><summary>{faq.q}</summary><p>{faq.a}</p></details>)}</div>
