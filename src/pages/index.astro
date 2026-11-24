@@ -1,39 +1,34 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import SiteHeader from "@components/SiteHeader.astro";
+import Header from "@components/Header.astro";
+import HeroSpotlight from "@components/HeroSpotlight.astro";
+import CategoryGrid from "@components/CategoryGrid.astro";
 import SiteFooter from "@components/SiteFooter.astro";
-import CharacterShowcase from "@components/CharacterShowcase.astro";
 
 const books = (await getCollection("books", ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
-const featured = books.filter((book) => book.data.featured);
-const shownBooks = featured.length > 0 ? featured : books;
 ---
-<BaseLayout title="Libros infantiles para colorear gratis" description="Explora libros infantiles gratuitos para colorear por frutas, animales, fantasía y aventuras. Descarga e imprime en familia.">
-  <SiteHeader />
+<BaseLayout title="Biblioteca infantil: libros para colorear gratis" description="Explora libros infantiles gratuitos para colorear por frutas, animales, fantasía y aventuras. Descarga e imprime en familia.">
+  <Header />
   <main>
-    <CharacterShowcase books={shownBooks} />
-    <section id="como-funciona" class="container-page py-16">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-xs font-black uppercase tracking-[.18em] text-[#987fc8]">Fácil y divertido</p>
-        <h2 class="mt-2 text-3xl font-black text-ink">¿Cómo funciona?</h2>
-        <p class="mt-3 text-[#777184]">Tres pasos sencillos para convertir una tarde cualquiera en una aventura creativa.</p>
-      </div>
-      <div class="mt-9 grid gap-5 md:grid-cols-3">
-        {[
-          { icon: "📚", title: "Elige tu libro", text: "Explora las colecciones y encuentra tu tema favorito.", color: "bg-[#e9ddff]" },
-          { icon: "⬇️", title: "Descárgalo gratis", text: "Abre la ficha del libro y descarga el PDF disponible.", color: "bg-[#dceeff]" },
-          { icon: "🖍️", title: "¡A colorear!", text: "Imprime las páginas, prepara tus lápices y deja volar tu imaginación.", color: "bg-[#d9f3e7]" }
-        ].map((step) => (
-          <article class="step-card p-7 text-center">
-            <div class:list={["mx-auto grid size-16 place-items-center rounded-3xl text-3xl", step.color]}>{step.icon}</div>
-            <h3 class="mt-5 text-lg font-black text-ink">{step.title}</h3>
-            <p class="mt-2 text-sm leading-6 text-[#777184]">{step.text}</p>
-          </article>
-        ))}
+    <HeroSpotlight />
+    <CategoryGrid books={books} />
+    <section id="descargas" class="download-guide">
+      <div class="download-guide-inner">
+        <p class="section-kicker">Fácil y divertido</p>
+        <h2>¿Cómo descargar tu libro?</h2>
+        <div class="download-steps">
+          <article><span>📚</span><h3>1. Elige tu libro</h3><p>Encuentra una aventura que te guste en nuestra biblioteca.</p></article>
+          <article><span>⬇️</span><h3>2. Descarga el PDF</h3><p>Abre la ficha del libro y pulsa el botón de descarga gratuita.</p></article>
+          <article><span>🖍️</span><h3>3. ¡A colorear!</h3><p>Imprime las páginas, prepara tus lápices y disfruta creando.</p></article>
+        </div>
       </div>
     </section>
   </main>
   <SiteFooter />
 </BaseLayout>
+<style>
+  .download-guide { padding:4rem 1.25rem; background:#f1f8f5; text-align:center; }.download-guide-inner { width:min(100%,1050px); margin:auto; }.download-guide h2 { margin:.4rem 0 0; color:#35566b; font-size:clamp(1.8rem,3vw,2.4rem); font-weight:1000; }.download-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-top:2rem; }.download-steps article { padding:1.5rem; border:1px solid #e2ece6; border-radius:1.4rem; background:#fff; }.download-steps article>span { font-size:2.2rem; }.download-steps h3 { margin:.7rem 0 .3rem; color:#38596b; font-size:1rem; font-weight:950; }.download-steps p { margin:0; color:#858087; font-size:.85rem; line-height:1.7; }
+  @media(max-width:650px) { .download-steps { grid-template-columns:1fr; } }
+</style>
