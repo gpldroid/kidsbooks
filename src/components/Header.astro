@@ -1,0 +1,31 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<header class="kids-header">
+  <div class="header-inner">
+    <a class="kids-brand" href={base} aria-label="Biblioteca Infantil, inicio">
+      <span class="brand-flower" aria-hidden="true">✿</span>
+      <span>Biblioteca<br />Infantil</span>
+    </a>
+    <nav class="kids-nav" aria-label="Navegación principal">
+      <a class="active" href={base}>Inicio</a>
+      <a href={`${base}libros/`}>Libros</a>
+      <a href="#por-edad">Por Edad</a>
+      <a href="#categorias">Categorías</a>
+      <a href="#descargas">Descargas</a>
+    </nav>
+    <a class="header-library-link" href={`${base}libros/`}>Ver biblioteca <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<style>
+  .kids-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #e9edf0; background: rgb(248 252 253 / 94%); backdrop-filter: blur(14px); }
+  .header-inner { display:flex; align-items:center; justify-content:space-between; gap:1.5rem; width:min(1120px,calc(100% - 2.5rem)); min-height:4.65rem; margin:auto; }
+  .kids-brand { display:flex; align-items:center; gap:.55rem; color:#31566b; font-size:1rem; font-weight:1000; line-height:1.02; text-decoration:none; }
+  .brand-flower { display:grid; width:2.1rem; height:2.1rem; place-items:center; border-radius:50%; background:#d9f0ec; color:#679d91; font-size:1.3rem; }
+  .kids-nav { display:flex; align-items:center; justify-content:center; gap:.3rem; }
+  .kids-nav a { padding:.55rem .8rem; border-radius:999px; color:#3e596b; font-size:.93rem; font-weight:850; text-decoration:none; transition:background .18s ease,color .18s ease; }
+  .kids-nav a:hover,.kids-nav a:focus-visible,.kids-nav a.active { background:#dff2f5; color:#31566b; outline:none; }
+  .header-library-link { border:1px solid #dce8e7; border-radius:999px; padding:.62rem 1rem; background:#fff; color:#426b67; font-size:.8rem; font-weight:900; text-decoration:none; white-space:nowrap; }
+  @media(max-width:760px) { .header-inner { min-height:4.2rem; width:calc(100% - 1.25rem); } .kids-nav { gap:0; overflow-x:auto; } .kids-nav a { padding:.5rem .55rem; font-size:.78rem; white-space:nowrap; } .header-library-link { display:none; } .kids-brand { font-size:.86rem; } }
+  @media(max-width:420px) { .brand-flower { display:none; } .kids-nav a { font-size:.72rem; padding:.45rem; } }
+</style>
