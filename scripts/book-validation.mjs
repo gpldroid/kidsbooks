@@ -48,7 +48,7 @@ export function validateBook(data, fileName, exists = fs.existsSync) {
       errors.push(`${fileName}: ${key} debe ser una ruta local que empiece por /.`);
       continue;
     }
-    const diskPath = path.join(PUBLIC_DIR, value.replace(/^\\/+/, ""));
+    const diskPath = path.join(PUBLIC_DIR, value.slice(1));
     if (!exists(diskPath)) errors.push(`${fileName}: no existe el archivo indicado en ${key}: ${value}`);
     if (key === "pdf" && value && !value.toLowerCase().endsWith(".pdf")) {
       errors.push(`${fileName}: el archivo pdf debe terminar en .pdf.`);
