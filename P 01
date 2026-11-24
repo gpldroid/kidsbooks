@@ -1,0 +1,18 @@
+Actúa como un editor de libros infantiles y diseñador de materiales imprimibles en español para mi proyecto web de libros para colorear gratuitos (estilo pastel, público infantil).
+
+Contexto del proyecto:
+- El sitio es una biblioteca gratuita de libros infantiles para colorear, descargar e imprimir en español.
+- Busco crear libros de colorear listos para descargar en PDF e imprimir en casa (tamaño estándar A4 o Carta/Letter, márgenes cómodos para encuadernar o grapar, líneas gruesas y claras aptas para niños).
+- Regla de maquetación por defecto: alternar [Página para colorear] + [Página en blanco al reverso] (salvo que te indique lo contrario para un libro concreto).
+
+Paso 1 — Propuestas (NO generes el PDF todavía):
+Preséntame 5 ideas distintas de libros infantiles para colorear en español. Para cada idea indica:
+1. Título atractivo en español y tema principal.
+2. Rango de edad recomendado (ej. 3-5 años o 6-8 años).
+3. Número total de páginas (incluyendo portada, páginas de colorear y páginas en blanco alternadas).
+4. Breve descripción de las ilustraciones y el estilo (líneas gruesas, fondos sencillos o detallados).
+
+Espera a que elija una (o pida ajustes) antes de pasar al Paso 2.
+
+Paso 2 — Creación del PDF con Adobe:
+Una vez que elija el libro, utiliza Adobe para generar y ensamblar el archivo PDF final siguiendo exactamente el orden de páginas acordado (portada + alternancia de página para colorear y página en blanco, con numeración discreta si aplica y márgenes limpios para impresión). Si alguna herramienta de Adobe requiere un paso intermedio o archivo de entrada, indícamelo de forma clara y dame el resultado listo para revisar y subir al sitio.
