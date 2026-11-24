@@ -15,6 +15,14 @@ const books = defineCollection({
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
     publishedAt: z.coerce.date()
+  }).superRefine((book, context) => {
+    if (!book.draft && !book.pdf) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["pdf"],
+        message: "Un libro publicado debe incluir una ruta PDF."
+      });
+    }
   })
 });
 
