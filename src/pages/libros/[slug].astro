@@ -48,7 +48,7 @@ const bookStructuredData = {
           <div class="rounded-2xl bg-white p-4"><dt class="text-xs font-bold text-[#68776d]">Páginas</dt><dd class="mt-1 font-black text-ink">{book.data.pages}</dd></div>
         </dl>
         {pdfUrl ? (
-          <a class="focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#16834a] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#16834a]/20 hover:bg-[#116b3c]" href={pdfUrl} download>Descargar libro gratis ↓</a>
+          <a class="download-book-button focus-ring mt-8 inline-flex items-center justify-center rounded-full bg-[#16834a] px-7 py-4 font-extrabold text-white shadow-lg shadow-[#16834a]/20 hover:bg-[#116b3c]" style="color: #ffffff;" href={pdfUrl} download>Descargar libro gratis ↓</a>
         ) : (
           <p class="mt-8 rounded-2xl bg-[#edf5ef] p-4 text-sm font-bold text-[#116b3c]">No hay un archivo de descarga disponible para este título.</p>
         )}
@@ -57,3 +57,14 @@ const bookStructuredData = {
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<style>
+  .download-book-button,
+  .download-book-button:visited,
+  .download-book-button:hover,
+  .download-book-button:focus-visible,
+  .download-book-button:active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
+  }
+</style>
