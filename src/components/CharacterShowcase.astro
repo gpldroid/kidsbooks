@@ -11,7 +11,7 @@ const characters = [
   { id: "fruits", label: "Frutas", subtitle: "Dulces y alegres", color: "mint", icon: "🍓" },
   { id: "animals", label: "Animales", subtitle: "Amigos curiosos", color: "lemon", icon: "🦊" },
   { id: "princesses", label: "Fantasía", subtitle: "Magia e ilusión", color: "lilac", icon: "🧚" },
-  { id: "heroes", label: "Aventuras", subtitle: "勇勇", color: "blue", icon: "🚀" }
+  { id: "heroes", label: "Aventuras", subtitle: "Misión espacial", color: "blue", icon: "🚀" }
 ];
 ---
 <section class="character-showcase" aria-labelledby="character-title">
@@ -129,7 +129,7 @@ const characters = [
   function applyFilter(character) {
     let visible = 0;
     for (const card of cards) {
-      const tags = (card.dataset.bookCharacters ?? "").split(/\\s+/).filter(Boolean);
+      const tags = (card.dataset.bookCharacters ?? "").split(/\s+/).filter(Boolean);
       const matches = !character || tags.includes(character);
       card.hidden = !matches;
       if (matches) visible += 1;
