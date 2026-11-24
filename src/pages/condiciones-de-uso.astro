@@ -1,0 +1,19 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Header from "@components/Header.astro";
+import SiteFooter from "@components/SiteFooter.astro";
+---
+<BaseLayout title="Condiciones de uso | kids books" description="Consulta las condiciones generales para navegar y utilizar los recursos publicados en kids books.">
+  <Header />
+  <main class="container-page page-shell">
+    <header class="page-heading"><p class="page-eyebrow">Información legal</p><h1>Condiciones de uso</h1><p>Al navegar por kids books aceptas utilizar el sitio de forma responsable y respetar los derechos aplicables a cada recurso.</p></header>
+    <article class="content-panel">
+      <h2>Uso del sitio</h2><p>La biblioteca ofrece información sobre libros infantiles para colorear y enlaces a archivos disponibles. El contenido se proporciona con fines informativos y creativos; comprueba siempre las indicaciones específicas de cada material.</p>
+      <h2>Archivos y derechos</h2><p>La disponibilidad de un archivo para descargar no implica por sí sola autorización para revenderlo, redistribuirlo, modificarlo o utilizarlo comercialmente. Respeta las licencias, atribuciones y derechos de autor que correspondan a cada recurso.</p>
+      <h2>Disponibilidad</h2><p>Intentamos mantener los enlaces y la información actualizados, pero no garantizamos que el sitio o todos los archivos estén disponibles de forma ininterrumpida. Las características de cada libro se indican en su ficha.</p>
+      <h2>Enlaces de terceros</h2><p>Los servicios externos están sujetos a sus propias condiciones. El uso de dichos servicios queda bajo la responsabilidad de cada visitante.</p>
+      <h2>Contacto</h2><p>Para comunicar un error o una consulta, visita nuestra página de <a class="text-link" href={`${import.meta.env.BASE_URL}contacto/`}>contacto</a>.</p>
+    </article>
+  </main>
+  <SiteFooter />
+</BaseLayout>
