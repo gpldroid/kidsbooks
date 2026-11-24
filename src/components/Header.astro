@@ -1,80 +1,53 @@
 ---
 const base = import.meta.env.BASE_URL;
 const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
-const isHome = pathname === base.replace(/\/$/, "") || pathname === "/";
-const isBooks = pathname.startsWith(`${base}libros`);
+const root = base.replace(/\/$/, "");
+const isHome = pathname === root || pathname === "/";
+const isBooks = pathname.startsWith(`${root}/libros`);
+const isCategories = pathname.startsWith(`${root}/categorias`);
 const navItems = [
   { label: "Inicio", href: base, icon: "home", active: isHome },
   { label: "Libros", href: `${base}libros/`, icon: "book-open", active: isBooks },
-  { label: "Por edad", href: `${base}#por-edad`, icon: "users", active: false },
-  { label: "Categorías", href: `${base}#categorias`, icon: "shapes", active: false },
-  { label: "Descargas", href: `${base}#descargas`, icon: "download", active: false }
+  { label: "Categorías", href: `${base}categorias/`, icon: "shapes", active: isCategories },
+  { label: "Nosotros", href: `${base}sobre-nosotros/`, icon: "users", active: pathname.startsWith(`${root}/sobre-nosotros`) },
+  { label: "FAQ", href: `${base}preguntas-frecuentes/`, icon: "help", active: pathname.startsWith(`${root}/preguntas-frecuentes`) }
 ];
 ---
 <header class="site-header kids-header">
   <div class="header-inner container-page">
     <a class="brand-link kids-brand" href={base} aria-label="Biblioteca Infantil, inicio">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M12 3.5c1.4 0 2.1 2.2 2.1 4.2 1.4-1.5 3.4-2.5 4.4-1.5s0 3-1.5 4.4c2 0 4.2.7 4.2 2.1s-2.2 2.1-4.2 2.1c1.5 1.4 2.5 3.4 1.5 4.4s-3 0-4.4-1.5c0 2-.7 4.2-2.1 4.2s-2.1-2.2-2.1-4.2c-1.4 1.5-3.4 2.5-4.4 1.5s0-3 1.5-4.4c-2 0-4.2-.7-4.2-2.1s2.2-2.1 4.2-2.1C5.5 9.2 4.5 7.2 5.5 6.2s3 0 4.4 1.5C9.9 5.7 10.6 3.5 12 3.5Z"/><circle cx="12" cy="12.5" r="2.2"/></svg>
-      </span>
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5c1.4 0 2.1 2.2 2.1 4.2 1.4-1.5 3.4-2.5 4.4-1.5s0 3-1.5 4.4c2 0 4.2.7 4.2 2.1s-2.2 2.1-4.2 2.1c1.5 1.4 2.5 3.4 1.5 4.4s-3 0-4.4-1.5c0 2-.7 4.2-2.1 4.2s-2.1-2.2-2.1-4.2c-1.4 1.5-3.4 2.5-4.4 1.5s0-3 1.5-4.4c-2 0-4.2-.7-4.2-2.1s2.2-2.1 4.2-2.1C5.5 9.2 4.5 7.2 5.5 6.2s3 0 4.4 1.5C9.9 5.7 10.6 3.5 12 3.5Z"/><circle cx="12" cy="12.5" r="2.2"/></svg></span>
       <span class="brand-name">kids books<span>.</span></span>
     </a>
     <nav class="desktop-nav kids-nav" aria-label="Navegación principal">
-      {navItems.map((item) => (
-        <a class:list={["nav-link", "kids-nav-link", { "is-active": item.active }]} href={item.href} aria-current={item.active ? "page" : undefined}>
-          {item.label}
-        </a>
-      ))}
+      {navItems.map((item) => <a class:list={["nav-link", "kids-nav-link", { "is-active": item.active }]} href={item.href} aria-current={item.active ? "page" : undefined}>{item.label}</a>)}
     </nav>
     <a class="header-cta" href={`${base}libros/`}>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 5.5v16M8 7h8M8 11h7"/></svg>
-      <span>Explorar libros</span>
-      <span aria-hidden="true">↗</span>
+      <span>Explorar libros</span><span aria-hidden="true">↗</span>
     </a>
   </div>
 </header>
 <nav class="mobile-tabbar" aria-label="Navegación móvil">
-  {navItems.map((item) => (
-    <a class="tab-item" href={item.href} data-tab-link={item.icon} aria-current={item.active ? "page" : undefined}>
-      {item.icon === "home" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"/></svg>}
-      {item.icon === "book-open" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C9.5 4.7 6.5 4.5 3 5v14c3.5-.5 6.5-.3 9 1.5 2.5-1.8 5.5-2 9-1.5V5c-3.5-.5-6.5-.3-9 1.5Z"/><path d="M12 6.5v14"/></svg>}
-      {item.icon === "users" && <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13h.5a5.5 5.5 0 0 1 5.5 5.5V20H3.5Z"/><path d="M16 5.5a3 3 0 0 1 0 5.8M17 14a5 5 0 0 1 3.5 4.8V20h-3"/></svg>}
-      {item.icon === "shapes" && <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="4"/><path d="m16 4 5 9h-10l5-9Z"/><rect x="4" y="15" width="7" height="6" rx="1.5"/></svg>}
-      {item.icon === "download" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 16v4h14v-4"/></svg>}
-      <span>{item.label}</span>
-    </a>
-  ))}
+  {navItems.map((item) => <a class="tab-item" href={item.href} aria-current={item.active ? "page" : undefined}>
+    {item.icon === "home" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"/></svg>}
+    {item.icon === "book-open" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C9.5 4.7 6.5 4.5 3 5v14c3.5-.5 6.5-.3 9 1.5 2.5-1.8 5.5-2 9-1.5V5c-3.5-.5-6.5-.3-9 1.5Z"/><path d="M12 6.5v14"/></svg>}
+    {item.icon === "shapes" && <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="4"/><path d="m16 4 5 9h-10l5-9Z"/><rect x="4" y="15" width="7" height="6" rx="1.5"/></svg>}
+    {item.icon === "users" && <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13h.5a5.5 5.5 0 0 1 5.5 5.5V20H3.5Z"/></svg>}
+    {item.icon === "help" && <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.6 2.6 0 1 1 4.5 1.8c-1.2 1.1-2 1.4-2 3M12 17.5h.01"/></svg>}
+    <span>{item.label}</span>
+  </a>)}
 </nav>
-<script>
-  const sectionLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.tab-item[href*="#"], .kids-nav-link[href*="#"]'));
-  const sections = ["por-edad", "categorias", "descargas"]
-    .map((id) => document.getElementById(id))
-    .filter((section): section is HTMLElement => section instanceof HTMLElement);
-
-  if ("IntersectionObserver" in window && sections.length > 0) {
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      const hash = `#${visible.target.id}`;
-      for (const link of sectionLinks) {
-        const active = new URL(link.href).hash === hash;
-        if (active) link.setAttribute("aria-current", "location");
-        else link.removeAttribute("aria-current");
-      }
-    }, { rootMargin: "-22% 0px -58% 0px", threshold: [0, .2, .5, .8] });
-    sections.forEach((section) => observer.observe(section));
-  }
-</script>
 <style>
   .kids-header { position:sticky; top:0; z-index:60; }
   .header-inner { display:flex; min-height:5rem; align-items:center; justify-content:space-between; gap:1rem; }
   .kids-brand { flex-shrink:0; }
   .brand-mark svg { width:1.45rem; height:1.45rem; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-  .kids-nav { gap:.25rem; padding:.35rem; border:1px solid #eee8f2; border-radius:999px; background:rgb(255 255 255 / 68%); }
+  .kids-nav { gap:.25rem; padding:.35rem; border:1px solid #e6eee9; border-radius:999px; background:rgb(255 255 255 / 78%); }
   .kids-nav-link { padding:.65rem .9rem; }
-  .kids-nav-link.is-active,.kids-nav-link[aria-current="location"] { background:#eee7fa; color:#70599c; box-shadow:inset 0 1px 2px rgb(91 70 125 / 7%); }
+  .kids-nav-link.is-active { background:#16834a; color:#fff; }
   .header-cta svg { width:1.15rem; height:1.15rem; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
-  .tab-item[aria-current="page"],.tab-item[aria-current="location"] { background:#eee7fa; color:#70599c; }
-  .tab-item[aria-current="page"] svg,.tab-item[aria-current="location"] svg { stroke-width:2.2; }
+  .tab-item[aria-current="page"] { background:#e8f5ed; color:#16834a; }
+  .tab-item[aria-current="page"] svg { stroke-width:2.2; }
   @media(max-width:700px) { .header-inner { min-height:4.25rem; } }
 </style>
