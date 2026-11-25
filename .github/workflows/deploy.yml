@@ -12,6 +12,10 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
+    env:
+      GITHUB_PAGES: 'true'
+      ASTRO_SITE: 'https://gpldroid.github.io'
+      ASTRO_BASE_PATH: '/kidsbooks'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
