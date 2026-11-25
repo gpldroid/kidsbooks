@@ -151,7 +151,7 @@ Variables opcionales para ajustes manuales:
 | `ASTRO_BASE_PATH` | Prefijo de rutas, por ejemplo `/kidsbooks` o `/` |
 | `GITHUB_PAGES=true` | Activa el prefijo de GitHub Pages cuando no se define `ASTRO_BASE_PATH` |
 
-No configures `/kidsbooks` como base global en Vercel: allí el sitio se sirve desde الجذر.
+No configures `/kidsbooks` como base global en Vercel: allí el sitio se sirve desde la raíz.
 
 ### إعدادات Vercel
 
@@ -163,7 +163,7 @@ No configures `/kidsbooks` como base global en Vercel: allí el sitio se sirve d
 - Node.js: 22.x.
 - Production URL: https://kidsbooks-nativeapp.vercel.app/
 
-لا تضف `GITHUB_PAGES=true` إلى متغيرات Vercel؛ هذا المتغير مخصص لـ GitHub Pages فقط.
+No añadas `GITHUB_PAGES=true` a las variables de Vercel; esta variable es exclusiva de GitHub Pages.
 
 ## GitHub Pages
 
