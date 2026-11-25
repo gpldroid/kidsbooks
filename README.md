@@ -120,6 +120,25 @@ No agregues campos al Markdown sin actualizar primero el esquema y el validador 
 
 **Frutas Divertidas y Felices** contiene 53 páginas A4 verticales. Su PDF y portada están integrados en public/books/ y public/images/covers/. La ficha está en src/content/books/frutas-divertidas-y-felices.md. Consulta docs/LIBRO-FRUTAS-DIVERTIDAS.md para los detalles editoriales.
 
+## Despliegue en varias plataformas
+
+El mismo repositorio admite GitHub Pages y Vercel sin cambiar manualmente las rutas:
+
+- **GitHub Pages:** el workflow configura `GITHUB_PAGES=true`, `ASTRO_SITE=https://gpldroid.github.io` y `ASTRO_BASE_PATH=/kidsbooks`.
+- **Vercel:** usa la raíz del dominio (`/`) y detecta automáticamente `VERCEL_PROJECT_PRODUCTION_URL` o `VERCEL_URL`.
+- **Netlify:** detecta la URL pública mediante `URL` y publica desde la raíz.
+- **Cloudflare Pages / Render:** detecta las URL de plataforma disponibles y publica desde la raíz.
+
+Variables opcionales para ajustes manuales:
+
+| Variable | Uso |
+|---|---|
+| `ASTRO_SITE` | URL canónica absoluta del sitio |
+| `ASTRO_BASE_PATH` | Prefijo de rutas, por ejemplo `/kidsbooks` o `/` |
+| `GITHUB_PAGES=true` | Activa el prefijo de GitHub Pages cuando no se define `ASTRO_BASE_PATH` |
+
+No configures `/kidsbooks` como base global en Vercel: allí el sitio se sirve desde la raíz.
+
 ## GitHub Pages
 
 La configuración del proyecto corresponde a:
